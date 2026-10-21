@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Punto Seguro: aprende a reconocer el bullying, descubre cómo actuar y encuentra ayuda dentro de tu escuela.">
+  <title>Inicio · Punto Seguro</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- defer: el script se ejecuta cuando el HTML ya está cargado -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Iconos reutilizables: se dibujan una vez y se usan con <use href="#..."> -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="icono-escudo" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icono-corazon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+    <symbol id="icono-foco" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.4 1 2.3h6c0-.9.3-1.7 1-2.3A7 7 0 0 0 12 2z"/></symbol>
+    <symbol id="icono-termometro" viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/></symbol>
+    <symbol id="icono-personas" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+    <symbol id="icono-alerta" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="icono-menu" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></symbol>
+    <symbol id="icono-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  </svg>
+
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado__barra">
+      <a class="marca" href="#inicio">
+        <svg class="icono marca__icono" aria-hidden="true"><use href="#icono-escudo"/></svg>
+        <span>Punto Seguro</span>
+      </a>
+
+      <!-- Botón que solo muestra un icono: necesita aria-label -->
+      <button class="boton-menu" id="botonMenu" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menuPrincipal">
+        <svg class="icono" aria-hidden="true"><use href="#icono-menu"/></svg>
+      </button>
+
+      <nav class="menu" id="menuPrincipal" aria-label="Principal">
+        <ul class="menu__lista">
+          <li><a class="menu__enlace" href="#inicio" data-enlace="inicio">Inicio</a></li>
+          <li><a class="menu__enlace" href="#ayuda" data-enlace="ayuda">Necesito ayuda</a></li>
+          <li><a class="menu__enlace" href="#aprende" data-enlace="aprende">Aprende a reconocerlo</a></li>
+          <li><a class="menu__enlace" href="#termometro" data-enlace="termometro">Termómetro</a></li>
+          <li><a class="menu__enlace" href="#guia" data-enlace="guia">¿Cómo puedo ayudar?</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+    <noscript>
+      <p class="aviso aviso--error contenedor">Punto Seguro necesita JavaScript para funcionar. Actívalo en tu navegador o pide ayuda directamente a un adulto de confianza.</p>
+    </noscript>
+
+    <!-- Aviso que aparece solo si ocurre un error inesperado -->
+    <div class="contenedor" id="avisoError" role="alert" hidden>
+      <div class="aviso aviso--error">
+        <p>Algo no funcionó como esperábamos. Puedes seguir usando las otras secciones o recargar la página.</p>
+        <button class="boton boton--secundario" type="button" id="botonRecargar">Recargar página</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ INICIO ═══════════ -->
+    <section class="vista" id="vista-inicio" data-vista="inicio" aria-labelledby="titulo-inicio">
+      <div class="portada">
+        <div class="contenedor">
+          <h1 id="titulo-inicio" tabindex="-1">Punto Seguro</h1>
+          <p class="portada__frase">Un espacio para reconocer el bullying, saber cómo actuar y encontrar ayuda dentro de tu escuela.</p>
+          <div class="acciones">
+            <a class="boton boton--primario" href="#ayuda">Necesito ayuda</a>
+            <a class="boton boton--claro" href="#aprende">Aprender sobre el tema</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contenedor seccion">
+        <h2>¿Qué quieres hacer?</h2>
+        <ul class="tarjetas">
+          <li>
+            <a class="tarjeta" href="#ayuda">
+              <span class="tarjeta__icono"><svg class="icono" aria-hidden="true"><use href="#icono-corazon"/></svg></span>
+              <span class="tarjeta__titulo">Necesito ayuda</span>
+              <span class="tarjeta__texto">Orientación según lo que te está pasando y a quién acudir.</span>
+            </a>
+          </li>
+          <li>
+            <a class="tarjeta" href="#aprende">
+              <span class="tarjeta__icono"><svg class="icono" aria-hidden="true"><use href="#icono-foco"/></svg></span>
+              <span class="tarjeta__titulo">Aprende a reconocerlo</span>
+              <span class="tarjeta__texto">Cuestionario con situaciones para distinguir un conflicto del bullying.</span>
+            </a>
+          </li>
+          <li>
+            <a class="tarjeta" href="#termometro">
+              <span class="tarjeta__icono"><svg class="icono" aria-hidden="true"><use href="#icono-termometro"/></svg></span>
+              <span class="tarjeta__titulo">Termómetro de convivencia</span>
+              <span class="tarjeta__texto">Encuesta breve para reflexionar sobre el ambiente en tu escuela.</span>
+            </a>
+          </li>
+          <li>
+            <a class="tarjeta" href="#guia">
+              <span class="tarjeta__icono"><svg class="icono" aria-hidden="true"><use href="#icono-personas"/></svg></span>
+              <span class="tarjeta__titulo">¿Cómo puedo ayudar?</span>
+              <span class="tarjeta__texto">Pasos seguros si le pasa a alguien más o si lo viste.</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="contenedor seccion">
+        <section class="panel panel--destacado" aria-labelledby="titulo-ayuda-real">
+          <h2 id="titulo-ayuda-real">Ayuda real en tu escuela</h2>
+          <p>Esta aplicación orienta, pero quienes pueden ayudarte de verdad son las personas de tu escuela.</p>
+          <dl class="datos-escuela">
+            <div><dt>Orientación</dt><dd data-dato="orientador">{{nombre del orientador/a}}</dd></div>
+            <div><dt>Dónde encontrar orientación</dt><dd data-dato="ubicacion">{{ubicación de orientación}}</dd></div>
+            <div><dt>Teléfono de dirección</dt><dd data-dato="telefono">{{teléfono de dirección}}</dd></div>
+            <div><dt>También puedes acudir con</dt><dd>Cualquier docente o persona adulta de confianza</dd></div>
+          </dl>
+        </section>
+      </div>
+    </section>
+
+    <!-- ═══════════ MÓDULO A: NECESITO AYUDA ═══════════ -->
+    <section class="vista contenedor seccion" id="vista-ayuda" data-vista="ayuda" aria-labelledby="titulo-ayuda" hidden>
+      <h1 id="titulo-ayuda" tabindex="-1">Necesito ayuda</h1>
+      <p class="introduccion">Elige la opción que más se parece a lo que vives. Verás qué puedes hacer y a quién acudir.</p>
+
+      <h2 id="titulo-situaciones">¿Qué está pasando?</h2>
+      <div class="selector" id="selectorAyuda" aria-labelledby="titulo-situaciones">
+        <button class="opcion-grande" type="button" data-clave="sufro" aria-pressed="false">Estoy sufriendo bullying</button>
+        <button class="opcion-grande" type="button" data-clave="presencie" aria-pressed="false">He presenciado una situación de bullying</button>
+        <button class="opcion-grande" type="button" data-clave="conflicto" aria-pressed="false">Tengo un problema con otro u otra estudiante y no sé cómo resolverlo</button>
+        <button class="opcion-grande" type="button" data-clave="hablar" aria-pressed="false">Quiero hablar con alguien sobre una situación escolar</button>
+      </div>
+
+      <div class="panel" id="orientacionAyuda">
+        <p class="texto-suave">Elige una opción para ver la orientación.</p>
+      </div>
+
+      <h2 class="separado">Formulario de práctica</h2>
+      <div class="aviso aviso--info">
+        <svg class="icono" aria-hidden="true"><use href="#icono-info"/></svg>
+        <p><strong>Este formulario es una demostración.</strong> No se envía ni se guarda nada. Sirve para practicar cómo describir una situación antes de hablar con una persona adulta.</p>
+      </div>
+
+      <form class="formulario" id="formularioDemo" novalidate autocomplete="off">
+        <div class="campo">
+          <label class="etiqueta" for="tipoSituacion">Tipo de situación</label>
+          <select id="tipoSituacion" name="tipoSituacion" aria-describedby="ayudaTipo">
+            <option value="">Elige una opción</option>
+            <option value="me-pasa">Bullying que me está pasando</option>
+            <option value="lo-vi">Bullying que vi</option>
+            <option value="conflicto">Conflicto con otra persona</option>
+            <option value="otra">Otra situación escolar</option>
+          </select>
+          <p class="pista" id="ayudaTipo">Elige la que más se parezca.</p>
+          <p class="error" id="errorTipo" hidden></p>
+        </div>
+
+        <div class="campo">
+          <label class="etiqueta" for="descripcion">Describe brevemente lo que pasa</label>
+          <textarea id="descripcion" name="descripcion" rows="4" maxlength="300" aria-describedby="ayudaDescripcion contadorDescripcion"></textarea>
+          <p class="pista" id="ayudaDescripcion">No escribas nombres completos, teléfonos ni datos personales. Entre 10 y 300 caracteres.</p>
+          <p class="pista contador" id="contadorDescripcion">0 de 300 caracteres</p>
+          <p class="error" id="errorDescripcion" hidden></p>
+        </div>
+
+        <div class="campo">
+          <p class="etiqueta" id="etiquetaPeligro">¿Hay peligro inmediato?</p>
+          <div id="grupoPeligro"></div>
+          <p class="error" id="errorPeligro" hidden></p>
+        </div>
+
+        <div class="acciones">
+          <button class="boton boton--primario" type="submit">Probar formulario</button>
+          <button class="boton boton--secundario" type="reset">Borrar todo</button>
+        </div>
+      </form>
+
+      <div class="panel" id="resultadoFormulario" role="status" tabindex="-1" hidden></div>
+    </section>
+
+    <!-- ═══════════ MÓDULO B: APRENDE A RECONOCERLO ═══════════ -->
+    <section class="vista contenedor seccion" id="vista-aprende" data-vista="aprende" aria-labelledby="titulo-aprende" hidden>
+      <h1 id="titulo-aprende" tabindex="-1">Aprende a reconocerlo</h1>
+      <p class="introduccion">Lee cada situación ficticia y elige la respuesta que te parezca más adecuada. Es un ejercicio para aprender, no un diagnóstico.</p>
+
+      <div id="cuestionario">
+        <div class="progreso">
+          <p class="progreso__texto" id="progresoTexto">Pregunta 1 de 7</p>
+          <div class="progreso__fondo" aria-hidden="true"><div class="progreso__barra" id="progresoBarra"></div></div>
+        </div>
+
+        <div class="panel">
+          <p class="escenario" id="textoEscenario"></p>
+          <h2 class="pregunta" id="textoPregunta" tabindex="-1"></h2>
+          <div id="opcionesCuestionario"></div>
+          <p class="error" id="errorCuestionario" hidden></p>
+          <div class="retro" id="retroCuestionario" tabindex="-1" hidden></div>
+          <div class="acciones">
+            <button class="boton boton--primario" type="button" id="botonComprobar">Comprobar respuesta</button>
+            <button class="boton boton--primario" type="button" id="botonSiguiente" hidden>Siguiente pregunta</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="resultadoCuestionario" hidden>
+        <h2 id="tituloResultado" tabindex="-1">Tu resultado</h2>
+        <p class="puntaje" id="puntajeCuestionario"></p>
+        <p id="mensajeCuestionario"></p>
+        <h3>Para recordar</h3>
+        <ul class="lista">
+          <li><strong>Repetición:</strong> el bullying no es un hecho aislado, sucede una y otra vez.</li>
+          <li><strong>Intención de dañar:</strong> busca lastimar, humillar o excluir a alguien.</li>
+          <li><strong>Desequilibrio de poder:</strong> a quien lo vive le cuesta defenderse (por edad, por estar en grupo, por popularidad, etc.).</li>
+        </ul>
+        <p class="texto-suave">Si algo de esto te recuerda a una situación real, habla con orientación o con una persona adulta de confianza.</p>
+        <div class="acciones">
+          <button class="boton boton--primario" type="button" id="botonReiniciar">Reiniciar cuestionario</button>
+          <a class="boton boton--secundario" href="#ayuda">Ir a “Necesito ayuda”</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ MÓDULO C: TERMÓMETRO DE CONVIVENCIA ═══════════ -->
+    <section class="vista contenedor seccion" id="vista-termometro" data-vista="termometro" aria-labelledby="titulo-termometro" hidden>
+      <h1 id="titulo-termometro" tabindex="-1">Termómetro de convivencia</h1>
+      <p class="introduccion">Cinco preguntas rápidas sobre cómo se vive la convivencia en tu escuela. Es anónimo.</p>
+
+      <div class="aviso aviso--info">
+        <svg class="icono" aria-hidden="true"><use href="#icono-info"/></svg>
+        <p>Los resultados son locales, no representan a toda la escuela y no se envían a nadie.</p>
+      </div>
+      <p class="aviso aviso--error" id="avisoAlmacen" hidden>Este navegador no permite guardar datos. Los resultados solo durarán mientras no cierres la página.</p>
+
+      <form class="formulario" id="formularioEncuesta" novalidate>
+        <div id="preguntasEncuesta"></div>
+        <p class="error" id="errorEncuesta" hidden></p>
+        <p class="aviso aviso--info" id="infoEncuesta" hidden></p>
+        <div class="acciones">
+          <button class="boton boton--primario" type="submit">Guardar y ver resultados</button>
+          <button class="boton boton--secundario" type="button" id="botonVerResultados">Ver resultados guardados</button>
+        </div>
+      </form>
+
+      <div id="resultadosEncuesta" hidden>
+        <div class="panel">
+          <h2 id="tituloResultadosEncuesta" tabindex="-1">Resultados de este navegador</h2>
+          <p class="respaldo" id="totalRespuestas"></p>
+          <p class="texto-suave" id="notaPocasRespuestas" hidden>Con menos de 5 respuestas, los porcentajes cambian mucho y no muestran una tendencia.</p>
+          <p class="texto-suave">Cada barra muestra el porcentaje de respuestas positivas, es decir, las que indican buena convivencia (por ejemplo, responder “No” a la pregunta sobre burlas).</p>
+          <ul class="grafica" id="grafica"></ul>
+          <p class="texto-suave">Los resultados son locales, no representan a toda la escuela y no se envían a nadie.</p>
+        </div>
+        <div class="acciones">
+          <button class="boton boton--primario" type="button" id="botonResponderOtra">Responder otra vez (otra persona)</button>
+          <button class="boton boton--secundario" type="button" id="botonBorrarResultados">Borrar resultados de este navegador</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ MÓDULO D: ¿CÓMO PUEDO AYUDAR? ═══════════ -->
+    <section class="vista contenedor seccion" id="vista-guia" data-vista="guia" aria-labelledby="titulo-guia" hidden>
+      <h1 id="titulo-guia" tabindex="-1">¿Cómo puedo ayudar?</h1>
+      <p class="introduccion">Elige tu caso y verás acciones seguras y realistas.</p>
+
+      <div class="aviso aviso--info">
+        <svg class="icono" aria-hidden="true"><use href="#icono-info"/></svg>
+        <p><strong>Esta aplicación no sustituye la ayuda de personas capacitadas ni los protocolos de tu escuela.</strong></p>
+      </div>
+
+      <h2 id="titulo-casos">¿Cuál es tu caso?</h2>
+      <div class="selector" id="selectorGuia" aria-labelledby="titulo-casos">
+        <button class="opcion-grande" type="button" data-clave="mi" aria-pressed="false">Me está pasando a mí</button>
+        <button class="opcion-grande" type="button" data-clave="otra" aria-pressed="false">Le está pasando a otra persona</button>
+        <button class="opcion-grande" type="button" data-clave="vi" aria-pressed="false">Lo he visto, pero no sé cómo intervenir</button>
+        <button class="opcion-grande" type="button" data-clave="yo" aria-pressed="false">Me he dado cuenta de que mis acciones están lastimando a alguien</button>
+      </div>
+
+      <div class="panel" id="recomendacionesGuia">
+        <p class="texto-suave">Elige una opción para ver las recomendaciones.</p>
+      </div>
+
+      <div class="urgente" role="note" aria-label="Ayuda urgente">
+        <svg class="icono urgente__icono" aria-hidden="true"><use href="#icono-alerta"/></svg>
+        <p class="urgente__texto">Si hay peligro inmediato, contacta a un adulto de confianza o llama al número de emergencias de tu país (911 en México).</p>
+        <a class="urgente__enlace" href="tel:911">Llamar al 911</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página: visible en todas las vistas, sin botón para cerrarlo -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="urgente" role="note" aria-label="Ayuda urgente">
+        <svg class="icono urgente__icono" aria-hidden="true"><use href="#icono-alerta"/></svg>
+        <p class="urgente__texto">Si hay peligro inmediato, contacta a un adulto de confianza o llama al número de emergencias de tu país (911 en México).</p>
+        <a class="urgente__enlace" href="tel:911">Llamar al 911</a>
+      </div>
+      <p class="pie__texto">Punto Seguro · Proyecto escolar. Busca contribuir a prevenir el bullying y orientar a quien lo necesita; no sustituye a las personas capacitadas ni los protocolos de tu escuela.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
