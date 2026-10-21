@@ -11,7 +11,7 @@
 /* ----------------------------------------------------------
    1. DATOS DE LA ESCUELA
    Escribe aquí los datos reales. Si un campo queda vacío,
-   la app muestra el marcador {{...}} para que se note.
+   la app usa un texto genérico que sirve para cualquier escuela.
    ---------------------------------------------------------- */
 const datosEscuela = {
   orientador: '',   // Ejemplo: 'Mtra. Laura Gómez (Orientación)'
@@ -19,16 +19,32 @@ const datosEscuela = {
   ubicacion: ''     // Ejemplo: 'Edificio B, planta baja'
 };
 
-const marcadores = {
-  orientador: '{{nombre del orientador/a}}',
-  telefono: '{{teléfono de dirección}}',
-  ubicacion: '{{ubicación de orientación}}'
+// Textos genéricos para usar DENTRO de frases ("Habla con ...")
+const textosGenericos = {
+  orientador: 'la persona de orientación de tu escuela',
+  telefono: 'la dirección de tu escuela',
+  ubicacion: ''
 };
 
-// Devuelve el dato real o, si está vacío, su marcador
+// Textos genéricos para el recuadro "Ayuda real en tu escuela"
+const textosPanel = {
+  orientador: 'Pregunta en tu escuela quién da orientación',
+  telefono: 'Pídelo en la dirección de tu escuela',
+  ubicacion: 'Pregunta en la dirección dónde está orientación'
+};
+
+function tieneDato(clave) {
+  return (datosEscuela[clave] || '').trim() !== '';
+}
+
+// Devuelve el dato real o, si está vacío, el texto genérico
 function dato(clave) {
-  const valor = (datosEscuela[clave] || '').trim();
-  return valor || marcadores[clave];
+  return tieneDato(clave) ? datosEscuela[clave].trim() : textosGenericos[clave];
+}
+
+// " en Edificio B" si hay ubicación; nada si no la hay
+function enUbicacion() {
+  return tieneDato('ubicacion') ? ` en ${dato('ubicacion')}` : '';
 }
 
 /* ----------------------------------------------------------
@@ -72,7 +88,7 @@ const contenidoAyuda = {
     titulo: 'Si quieres hablar con alguien',
     mensaje: 'Buscar a alguien para hablar es una buena decisión, aunque no sepas cómo explicarlo.',
     acciones: [
-      `Puedes acudir con ${dato('orientador')} en ${dato('ubicacion')}.`,
+      `Puedes acudir con ${dato('orientador')}${enUbicacion()}.`,
       'Pide un momento a solas: “¿Tiene unos minutos? Quiero platicarle algo”.',
       'Si te cuesta empezar, escribe en una hoja lo que quieres decir y llévala.',
       'También puedes hablar con un familiar u otra persona adulta de confianza.'
@@ -81,124 +97,160 @@ const contenidoAyuda = {
 };
 
 // Módulo B · Cuestionario (situaciones ficticias)
-const preguntasCuestionario = [
+// Todas las preguntas usan las MISMAS tres respuestas. Así no se adivina por
+// cómo está escrita la opción: hay que analizar la situación con las tres claves
+// (repetición, intención de dañar y desequilibrio de poder).
+const opcionesCuestionario = [
+  { tipo: 'bullying', texto: 'Es bullying' },
+  { tipo: 'atender', texto: 'No es bullying, pero hay que atenderlo' },
+  { tipo: 'normal', texto: 'No es bullying: es parte normal de la convivencia' }
+];
+
+// Cuántas situaciones de cada tipo salen en cada ronda (10 en total)
+const reparticionRonda = { bullying: 5, atender: 2, normal: 3 };
+
+const bancoCuestionario = [
+  // ---------- Sí es bullying ----------
   {
-    escenario: 'Desde hace varias semanas, un grupo no deja que Alex se siente con ellos en el recreo y le dicen que “no tiene lugar ahí”.',
-    pregunta: '¿Cómo describirías esta situación?',
-    opciones: [
-      'Es normal: no tienen por qué juntarse con todo el mundo.',
-      'Puede ser bullying: es una exclusión repetida y hecha a propósito.',
-      'No pasa nada mientras no haya golpes.'
-    ],
-    correcta: 1,
-    explicacion: 'La exclusión social es una forma de bullying cuando se repite y busca dejar a alguien fuera para lastimar. No hace falta violencia física para que haga daño.'
+    tipo: 'bullying',
+    escenario: 'Cada vez que agregan a Alex al grupo de mensajes del salón, alguien lo saca y escriben “aquí nadie te quiere”. Lleva así casi un mes.',
+    explicacion: 'Es exclusión repetida y hecha a propósito, y varias personas actúan contra una. El bullying también ocurre en los chats.'
   },
   {
-    escenario: 'Sam y Dani discuten una vez por quién usa la cancha. Se dicen cosas feas, pero al día siguiente hablan y lo arreglan.',
-    pregunta: '¿Qué tipo de situación parece?',
-    opciones: [
-      'Un caso grave de bullying.',
-      'Algo que hay que ignorar siempre.',
-      'Un conflicto puntual: no se repite y ninguna de las dos personas tiene más poder.'
-    ],
-    correcta: 2,
-    explicacion: 'Los conflictos aislados entre iguales son parte de la convivencia. No son bullying, aunque si se complican también se puede pedir ayuda.'
+    tipo: 'bullying',
+    escenario: 'Desde que empezó el curso le dicen “la jirafa” a Vale por su estatura. Ella ya pidió que paren, pero cada vez más gente lo dice.',
+    explicacion: 'Un apodo deja de ser broma cuando la persona pide que paren y siguen. Hay repetición, intención de molestar y un grupo contra una persona.'
   },
   {
-    escenario: 'En cada clase, varias personas imitan la forma de hablar de Ari y se ríen. Ari ya no quiere participar.',
-    pregunta: '¿Qué elementos ves aquí?',
-    opciones: [
-      'Repetición, intención de burlarse y varias personas contra una: puede ser bullying.',
-      'Son bromas; Ari debería aprender a reírse.',
-      'Solo es un problema si Ari se queja con la dirección.'
-    ],
-    correcta: 0,
-    explicacion: 'Las burlas constantes, en grupo y que afectan a la persona cumplen con repetición, intención y desequilibrio de poder. Que alguien deje de participar es una señal de daño.'
+    tipo: 'bullying',
+    escenario: 'Dos estudiantes de tercero le piden a Leo 20 pesos cada lunes “para que no le pase nada”.',
+    explicacion: 'Es extorsión: se repite, busca intimidar y hay desequilibrio de poder (edad y número). Hay que avisar a una persona adulta cuanto antes.'
   },
   {
-    escenario: 'Alguien inventa un rumor sobre Cris y cada día más gente del salón lo repite.',
-    pregunta: '¿Qué es lo más adecuado pensar?',
-    opciones: [
-      'Si no lo inventaste, no tiene nada que ver contigo.',
-      'Son solo chismes, no afectan a nadie.',
-      'Puede ser bullying, y repetir el rumor también contribuye al daño.'
-    ],
-    correcta: 2,
-    explicacion: 'Los rumores dañan la reputación y aíslan. Cada persona que lo repite lo hace más grande; no repetirlo ya es una forma de ayudar.'
+    tipo: 'bullying',
+    escenario: 'Una cuenta anónima publica fotos editadas de Fer para burlarse de ella. Cada semana sube nuevas y la etiquetan.',
+    explicacion: 'Es ciberacoso: se repite, busca humillar y el anonimato hace difícil defenderse. Lo mejor es no compartir, guardar capturas y avisar.'
   },
   {
-    escenario: 'Crean una cuenta en redes para publicar memes sobre Fer y la comparten en el grupo de mensajes del salón.',
-    pregunta: '¿Qué conviene hacer si lo ves?',
-    opciones: [
-      'Puede ser ciberacoso: no compartirlo, guardar evidencia y avisar a una persona adulta.',
-      'Es humor de internet, no es para tanto.',
-      'Responder con otro meme para defender a Fer.'
-    ],
-    correcta: 0,
-    explicacion: 'El acoso digital puede llegar a muchas personas y repetirse cada vez que alguien comparte. Lo más seguro es no difundir, guardar capturas y avisar.'
+    tipo: 'bullying',
+    escenario: 'Kenia llegó este año de otro estado. Casi a diario imitan su forma de hablar y le dicen que “se regrese a su pueblo”.',
+    explicacion: 'Las burlas por el origen, el acento o cualquier diferencia son discriminación. Al repetirse y venir de un grupo, es bullying.'
   },
   {
-    escenario: 'Una persona de un grado mayor empuja a Leo todos los días en la entrada y le quita su almuerzo.',
-    pregunta: '¿Cómo deberían actuar?',
-    opciones: [
-      'Leo debería defenderse a golpes.',
-      'Es una situación de riesgo: hay agresión repetida y más poder; hay que avisar pronto a una persona adulta.',
-      'Es parte de crecer; se le pasará.'
-    ],
-    correcta: 1,
-    explicacion: 'La agresión física repetida y la diferencia de edad muestran desequilibrio de poder. Responder con violencia puede empeorar las cosas; lo seguro es buscar apoyo adulto.'
+    tipo: 'bullying',
+    escenario: 'Cuando Ari participa en clase, un grupo hace ruidos y voltea los ojos. Nadie dice nada feo en voz alta y el maestro no lo nota, pero pasa casi todos los días.',
+    explicacion: 'El bullying puede ser silencioso. Gestos y ruidos repetidos para ridiculizar a alguien también hacen daño, aunque no haya insultos ni golpes.'
   },
   {
-    escenario: 'Ves que, por tercera vez esta semana, a alguien de otro salón le esconden la mochila entre risas.',
-    pregunta: '¿Qué es lo más seguro que puedes hacer?',
-    opciones: [
-      'Grabarlo para tener pruebas y subirlo a redes.',
-      'Enfrentarte solo o sola a quienes lo hacen.',
-      'Acompañar a la persona afectada y avisar a un o una docente.'
-    ],
-    correcta: 2,
-    explicacion: 'No necesitas enfrentar a nadie. Acompañar y avisar a una persona adulta protege a quien lo vive y también a ti. Difundir videos puede humillar más.'
+    tipo: 'bullying',
+    escenario: 'Toño es parte de un grupo de amigos, pero siempre es él al que le esconden las cosas y al que graban cuando se tropieza. Él se ríe, pero en su casa dice que ya no quiere ir a la escuela.',
+    explicacion: 'Entre “amigos” también puede haber bullying: siempre es la misma persona, se repite y le está afectando. Que se ría no significa que esté bien.'
+  },
+  {
+    tipo: 'bullying',
+    escenario: 'Graban a Nico cuando se le cae la charola en la cafetería. El video pasa por varios grupos de mensajes con comentarios burlones.',
+    explicacion: 'Aunque se grabó una sola vez, en internet el daño se repite cada vez que alguien lo comparte o comenta. Por eso puede ser bullying. No reenviarlo ya ayuda.'
+  },
+
+  // ---------- No es bullying, pero hay que atenderlo ----------
+  {
+    tipo: 'atender',
+    escenario: 'En la cancha, Sam y Dani se empujan por una falta y un maestro los separa. Nunca habían tenido problemas y no vuelve a pasar.',
+    explicacion: 'Es una pelea puntual entre iguales: no se repite ni hay desequilibrio de poder. No es bullying, pero la agresión física siempre se debe atender.'
+  },
+  {
+    tipo: 'atender',
+    escenario: 'Durante un trabajo en equipo, Mía se enoja y le dice a Bruno “eres un inútil”. Bruno se siente mal y no quiere volver a trabajar con ella.',
+    explicacion: 'Es un conflicto: pasó una vez y no hay un grupo contra una persona. No es bullying, pero las palabras lastiman; hablarlo o pedir mediación ayuda.'
+  },
+  {
+    tipo: 'atender',
+    escenario: 'Una noche, dos compañeros se insultan en el grupo del salón por un partido de futbol. Al día siguiente el tutor habla con ellos y no se repite.',
+    explicacion: 'Es una discusión puntual entre iguales, aunque fuera en internet. No es bullying, pero conviene evitar discutir en grupos donde todos lo ven.'
+  },
+
+  // ---------- Convivencia normal ----------
+  {
+    tipo: 'normal',
+    escenario: 'Luis y Pepe eran mejores amigos, pero ya no se llevan igual. Luis ahora se junta con otras personas en el recreo y no le hace nada a Pepe.',
+    explicacion: 'Las amistades cambian y cada quien puede elegir con quién juntarse. No hay intención de dañar, burlas ni grupo en contra. Puede doler, pero no es bullying.'
+  },
+  {
+    tipo: 'normal',
+    escenario: 'En clase de cívica, Daniela y Omar debaten muy en serio sobre un tema. Levantan la voz, pero al terminar siguen platicando como siempre.',
+    explicacion: 'Estar en desacuerdo y debatir con respeto es sano. No hay intención de dañar ni se repite contra alguien.'
+  },
+  {
+    tipo: 'normal',
+    escenario: 'En un grupo de amigos todos se ponen apodos y se ríen. Cuando alguien dice “ya, eso no me gustó”, los demás paran y se disculpan.',
+    explicacion: 'Es juego entre iguales: todos participan y se respeta cuando alguien pone un límite. La clave es que se detienen cuando se lo piden.'
+  },
+  {
+    tipo: 'normal',
+    escenario: 'La maestra le pide a Iván frente al grupo que guarde el celular y le baja puntos por no entregar la tarea. Iván dice que “le hace bullying”.',
+    explicacion: 'Aplicar las reglas de la clase no es bullying. Si Iván cree que lo tratan injustamente, puede hablarlo con respeto con la maestra o con orientación.'
+  },
+  {
+    tipo: 'normal',
+    escenario: 'En las pruebas para el equipo de básquetbol eligen a otras personas y Rafa no queda. Le dicen que puede volver a intentarlo el próximo semestre.',
+    explicacion: 'No quedar en una selección es frustrante, pero se decidió con reglas claras y no busca dañar a Rafa. Es parte normal de la convivencia.'
   }
 ];
 
-// Módulo C · Encuesta. "positiva" indica qué respuesta refleja buena convivencia
+// Mezcla un arreglo (algoritmo de Fisher-Yates) sin modificar el original
+function mezclar(lista) {
+  const copia = [...lista];
+  for (let i = copia.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia;
+}
+
+// Arma una ronda: toma al azar cierta cantidad de cada tipo y las revuelve
+function crearRonda() {
+  const elegidas = Object.entries(reparticionRonda).flatMap(([tipo, cantidad]) =>
+    mezclar(bancoCuestionario.filter((pregunta) => pregunta.tipo === tipo)).slice(0, cantidad)
+  );
+  return mezclar(elegidas);
+}
+
+// Módulo C · Encuesta. En TODAS las preguntas, "Sí" es la respuesta que
+// refleja buena convivencia (así la gráfica se lee igual en todas).
 const preguntasEncuesta = [
   {
     texto: '¿Sientes que en tu escuela te tratan con respeto?',
     corta: 'Me tratan con respeto',
-    positiva: 'si',
     sugerencia: 'Vale la pena hablar en grupo sobre cómo nos tratamos y qué acuerdos de respeto queremos.'
   },
   {
-    texto: '¿Has presenciado burlas constantes hacia alguien?',
-    corta: 'No he visto burlas constantes',
-    positiva: 'no',
+    texto: '¿Sientes que en tu grupo nadie es blanco de burlas constantes?',
+    corta: 'Nadie es blanco de burlas constantes',
     sugerencia: 'Cuando las burlas se repiten, quienes observan pueden ayudar: no reír, acompañar y avisar a una persona adulta.'
   },
   {
     texto: '¿Sabes a quién acudir si tienes un problema en la escuela?',
     corta: 'Sé a quién acudir',
-    positiva: 'si',
     sugerencia: 'Conviene dar a conocer quién es la persona de orientación y dónde encontrarla.'
   },
   {
     texto: '¿Sientes confianza para pedir ayuda a una persona adulta de la escuela?',
     corta: 'Tengo confianza para pedir ayuda',
-    positiva: 'si',
     sugerencia: 'Generar confianza toma tiempo: espacios de escucha y respuestas respetuosas ayudan mucho.'
   },
   {
     texto: '¿Sientes que en tu grupo se apoyan cuando alguien tiene un problema?',
     corta: 'En mi grupo nos apoyamos',
-    positiva: 'si',
     sugerencia: 'Pequeños gestos, como preguntar “¿estás bien?”, fortalecen el apoyo entre compañeros y compañeras.'
   }
 ];
 
+// "puntos": cuánto suma cada respuesta al puntaje (de 0 a 100).
+// "A veces" vale la mitad: no es tan bueno como "Sí", pero tampoco es "No".
 const opcionesEncuesta = [
-  { valor: 'si', texto: 'Sí' },
-  { valor: 'aveces', texto: 'A veces' },
-  { valor: 'no', texto: 'No' }
+  { valor: 'si', texto: 'Sí', puntos: 100 },
+  { valor: 'aveces', texto: 'A veces', puntos: 50 },
+  { valor: 'no', texto: 'No', puntos: 0 }
 ];
 
 // Módulo D · Guía de acción
@@ -456,12 +508,12 @@ function iniciarNavegacion() {
   mostrarVista(obtenerVistaDesdeHash() || 'inicio', false);
 }
 
-// Coloca los datos de la escuela (o sus marcadores) en el HTML
+// Coloca los datos de la escuela (o un texto genérico) en el recuadro de ayuda
 function aplicarDatosEscuela() {
   document.querySelectorAll('[data-dato]').forEach((elemento) => {
     const clave = elemento.dataset.dato;
-    elemento.textContent = dato(clave);
-    elemento.classList.toggle('marcador', !(datosEscuela[clave] || '').trim());
+    elemento.textContent = tieneDato(clave) ? dato(clave) : textosPanel[clave];
+    elemento.classList.toggle('marcador', !tieneDato(clave));
   });
 }
 
@@ -470,6 +522,14 @@ function aplicarDatosEscuela() {
    Importante: el formulario NO guarda nada (ni localStorage
    ni ningún otro almacenamiento) y NO envía nada.
    ---------------------------------------------------------- */
+
+// Cada opción del formulario se relaciona con una orientación del módulo A
+const tipoAOrientacion = {
+  'me-pasa': 'sufro',
+  'lo-vi': 'presencie',
+  'conflicto': 'conflicto',
+  'otra': 'hablar'
+};
 
 function iniciarModuloAyuda() {
   iniciarSelector($('#selectorAyuda'), $('#orientacionAyuda'), contenidoAyuda);
@@ -539,19 +599,28 @@ function iniciarModuloAyuda() {
     }
 
     const hayPeligro = grupoPeligro.obtenerValor() === 'si';
+    const orientacion = contenidoAyuda[tipoAOrientacion[tipo.value]];
 
-    // Mostramos el resultado de la demostración
+    // Mostramos el resultado de la demostración, según lo que se eligió
     resultado.textContent = '';
-    resultado.append(
-      crearElemento('h3', '', 'Formulario completo (demostración)'),
-      crearElemento('p', '', `Esta es una demostración local. No se envía nada a tu escuela. Para pedir ayuda real, acude con ${dato('orientador')} o llama a ${dato('telefono')}.`)
-    );
+    resultado.appendChild(crearElemento('h3', '', 'Formulario completo (demostración)'));
+
+    // Si hay peligro, es lo primero que se lee
     if (hayPeligro) {
       resultado.appendChild(crearElemento('p', 'aviso aviso--error',
         'Indicaste que hay peligro inmediato: no esperes. Busca ahora a una persona adulta de confianza o llama al 911.'));
     }
+
+    if (orientacion) {
+      resultado.appendChild(crearElemento('p', '', orientacion.mensaje));
+      resultado.appendChild(crearElemento('p', 'etiqueta', 'Lo que puedes hacer ahora:'));
+      const lista = crearElemento('ul', 'lista');
+      orientacion.acciones.forEach((accion) => lista.appendChild(crearElemento('li', '', accion)));
+      resultado.appendChild(lista);
+    }
+
     resultado.appendChild(crearElemento('p', 'texto-suave',
-      'Lo que escribiste no se guardó y ya se borró del formulario. Puedes usar estas mismas ideas para contárselo a una persona adulta.'));
+      `Esta es una demostración: no se envía nada a tu escuela. Para pedir ayuda real, acude con ${dato('orientador')}${enUbicacion()} o con cualquier docente de confianza. Lo que escribiste no se guardó y ya se borró del formulario; puedes usar esas mismas ideas para contárselo a una persona adulta.`));
 
     // Borramos todo lo escrito: no queda nada en la página ni en el navegador
     formulario.reset();
@@ -590,22 +659,24 @@ function iniciarCuestionario() {
   const botonSiguiente = $('#botonSiguiente');
   const resultado = $('#resultadoCuestionario');
 
-  const total = preguntasCuestionario.length;
+  // Cada ronda trae situaciones distintas, elegidas al azar del banco
+  let ronda = crearRonda();
+  const total = ronda.length;
   let indicePregunta = 0;
   let aciertos = 0;
   let grupo = null;
 
   function mostrarPregunta(moverFoco) {
-    const actual = preguntasCuestionario[indicePregunta];
+    const actual = ronda[indicePregunta];
 
     progresoTexto.textContent = `Pregunta ${indicePregunta + 1} de ${total}`;
     progresoBarra.style.width = `${(indicePregunta / total) * 100}%`;
     textoEscenario.textContent = actual.escenario;
-    textoPregunta.textContent = actual.pregunta;
+    textoPregunta.textContent = '¿Cómo clasificarías esta situación?';
 
     grupo = crearGrupoOpciones({
       contenedor: $('#opcionesCuestionario'),
-      opciones: actual.opciones.map((texto, i) => ({ valor: String(i), texto })),
+      opciones: opcionesCuestionario.map((opcion) => ({ valor: opcion.tipo, texto: opcion.texto })),
       etiquetaId: 'textoPregunta',
       alCambiar: () => limpiarErrorCampo(grupo.elemento, errorCuestionario)
     });
@@ -620,7 +691,7 @@ function iniciarCuestionario() {
   }
 
   function comprobar() {
-    const actual = preguntasCuestionario[indicePregunta];
+    const actual = ronda[indicePregunta];
     const elegida = grupo.obtenerValor();
 
     if (elegida === null) {
@@ -629,11 +700,11 @@ function iniciarCuestionario() {
       return;
     }
 
-    const esCorrecta = Number(elegida) === actual.correcta;
+    const esCorrecta = elegida === actual.tipo;
     if (esCorrecta) aciertos += 1;
 
     grupo.bloquear();
-    grupo.marcar(String(actual.correcta), 'correcta', '✓ Más adecuada');
+    grupo.marcar(actual.tipo, 'correcta', '✓ Más adecuada');
     if (!esCorrecta) grupo.marcar(elegida, 'incorrecta', 'Tu elección');
 
     retro.className = 'retro ' + (esCorrecta ? 'retro--bien' : 'retro--revisa');
@@ -675,6 +746,7 @@ function iniciarCuestionario() {
   }
 
   function reiniciar() {
+    ronda = crearRonda(); // nueva ronda con otras situaciones
     indicePregunta = 0;
     aciertos = 0;
     resultado.hidden = true;
@@ -696,7 +768,9 @@ function iniciarCuestionario() {
    No se guarda quién respondió ni cada respuesta por separado.
    ---------------------------------------------------------- */
 
-const claveAlmacen = 'puntoSeguro.termometro.v1';
+// v2: la pregunta 2 cambió de sentido, así que no se mezclan con resultados viejos
+const claveAlmacen = 'puntoSeguro.termometro.v2';
+const claveAlmacenVieja = 'puntoSeguro.termometro.v1';
 let resultadosEnMemoria = null; // respaldo si el navegador bloquea localStorage
 
 function crearResultadosVacios() {
@@ -759,10 +833,17 @@ function borrarResultados() {
   }
 }
 
-// Clasifica un porcentaje en tres niveles
-function obtenerNivel(porcentaje) {
-  if (porcentaje >= 70) return { clase: '', nombre: 'Fortaleza' };
-  if (porcentaje >= 40) return { clase: 'grafica__barra--media', nombre: 'Se puede mejorar' };
+// Puntaje de 0 a 100 de una pregunta: promedio de los puntos de cada respuesta
+// Ejemplo: 2 "Sí" y 2 "A veces" -> (100 + 100 + 50 + 50) / 4 = 75
+function calcularPuntaje(conteo, total) {
+  const suma = opcionesEncuesta.reduce((acumulado, opcion) => acumulado + conteo[opcion.valor] * opcion.puntos, 0);
+  return Math.round(suma / total);
+}
+
+// Clasifica un puntaje en tres niveles
+function obtenerNivel(puntaje) {
+  if (puntaje >= 75) return { clase: '', nombre: 'Fortaleza' };
+  if (puntaje >= 50) return { clase: 'grafica__barra--media', nombre: 'Se puede mejorar' };
   return { clase: 'grafica__barra--baja', nombre: 'Necesita atención' };
 }
 
@@ -813,14 +894,13 @@ function iniciarTermometro() {
       `Gráfica basada en ${n} ${n === 1 ? 'respuesta' : 'respuestas'} de este navegador.`;
     $('#notaPocasRespuestas').hidden = n >= 5;
 
-    // Gráfica de barras con HTML y CSS: el ancho de cada barra es el porcentaje
+    // Gráfica de barras con HTML y CSS: el ancho de cada barra es el puntaje (0 a 100)
     const grafica = $('#grafica');
     grafica.textContent = '';
-    preguntasEncuesta.forEach((pregunta, indice) => {
+    const puntajes = preguntasEncuesta.map((pregunta, indice) => {
       const conteo = datos.conteos[indice];
-      const positivas = conteo[pregunta.positiva];
-      const porcentaje = Math.round((positivas / n) * 100);
-      const nivel = obtenerNivel(porcentaje);
+      const puntaje = calcularPuntaje(conteo, n);
+      const nivel = obtenerNivel(puntaje);
 
       const fila = crearElemento('li');
       const titulo = crearElemento('p', 'grafica__titulo', pregunta.corta);
@@ -829,17 +909,23 @@ function iniciarTermometro() {
       const fondo = crearElemento('div', 'grafica__fondo');
       fondo.setAttribute('aria-hidden', 'true');
       const barra = crearElemento('div', 'grafica__barra ' + nivel.clase);
-      barra.style.width = `${porcentaje}%`;
+      barra.style.width = `${puntaje}%`;
       fondo.appendChild(barra);
 
+      // Se muestran también los conteos, para que se pueda comprobar el puntaje
       const valor = crearElemento('p', 'grafica__valor',
-        `${porcentaje} % de respuestas positivas (${positivas} de ${n})`);
+        `${puntaje} de 100 · Sí: ${conteo.si} · A veces: ${conteo.aveces} · No: ${conteo.no}`);
       const nota = crearElemento('p', 'grafica__nota',
-        porcentaje >= 70 ? 'Buena señal. Vale la pena cuidarla.' : pregunta.sugerencia);
+        puntaje >= 75 ? 'Buena señal. Vale la pena cuidarla.' : pregunta.sugerencia);
 
       fila.append(titulo, fondo, valor, nota);
       grafica.appendChild(fila);
+      return puntaje;
     });
+
+    // Puntaje general: promedio de las cinco preguntas
+    const general = Math.round(puntajes.reduce((a, b) => a + b, 0) / puntajes.length);
+    $('#puntajeGeneral').textContent = `Puntaje general: ${general} de 100 (${obtenerNivel(general).nombre})`;
 
     formulario.hidden = true;
     vistaResultados.hidden = false;
@@ -897,6 +983,13 @@ function iniciarTermometro() {
     infoEncuesta.hidden = false;
     grupos[0].enfocar();
   });
+
+  // Los resultados de la versión anterior medían la pregunta 2 al revés: se descartan
+  try {
+    localStorage.removeItem(claveAlmacenVieja);
+  } catch (error) {
+    // Si el almacenamiento está bloqueado no hay nada que limpiar
+  }
 
   leerResultados(); // muestra el aviso si el navegador bloquea el almacenamiento
 }

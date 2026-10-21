@@ -6,9 +6,9 @@ Aplicación web escolar para **contribuir a prevenir el bullying** y orientar a 
 
 | Módulo | Qué hace | ¿Guarda datos? |
 |---|---|---|
-| **A · Necesito ayuda** | Orientación según 4 situaciones + formulario de práctica que valida campos | **No.** No envía ni guarda nada |
-| **B · Aprende a reconocerlo** | Cuestionario de 7 situaciones ficticias con explicación y resultado | **No.** Solo en memoria |
-| **C · Termómetro de convivencia** | Encuesta de 5 preguntas y gráfica de barras hecha con HTML/CSS | Sí, solo **conteos totales** en `localStorage` de este navegador |
+| **A · Necesito ayuda** | Orientación según 4 situaciones + formulario de práctica que valida campos y da pasos según la situación elegida | **No.** No envía ni guarda nada |
+| **B · Aprende a reconocerlo** | Banco de 16 situaciones ficticias; cada ronda muestra 10 al azar (5 de bullying, 2 que hay que atender y 3 de convivencia normal), siempre con las mismas 3 respuestas | **No.** Solo en memoria |
+| **C · Termómetro de convivencia** | Encuesta de 5 preguntas, puntaje de 0 a 100 (Sí = 100, A veces = 50, No = 0) y gráfica de barras hecha con HTML/CSS | Sí, solo **conteos totales** en `localStorage` de este navegador |
 | **D · ¿Cómo puedo ayudar?** | Recomendaciones seguras según 4 casos | **No** |
 
 En el pie de todas las vistas y en el módulo D hay un bloque fijo de ayuda urgente (911 en México).
@@ -41,7 +41,7 @@ const datosEscuela = {
 };
 ```
 
-Si algún dato queda vacío, la app muestra su marcador (`{{nombre del orientador/a}}`, `{{teléfono de dirección}}`, `{{ubicación de orientación}}`) resaltado, para que se note que falta.
+Si algún dato queda vacío, la app usa un texto genérico que sirve para cualquier escuela (por ejemplo, “la persona de orientación de tu escuela”).
 
 ## Decisiones técnicas
 

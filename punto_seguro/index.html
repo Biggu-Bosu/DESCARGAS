@@ -114,9 +114,9 @@
           <h2 id="titulo-ayuda-real">Ayuda real en tu escuela</h2>
           <p>Esta aplicación orienta, pero quienes pueden ayudarte de verdad son las personas de tu escuela.</p>
           <dl class="datos-escuela">
-            <div><dt>Orientación</dt><dd data-dato="orientador">{{nombre del orientador/a}}</dd></div>
-            <div><dt>Dónde encontrar orientación</dt><dd data-dato="ubicacion">{{ubicación de orientación}}</dd></div>
-            <div><dt>Teléfono de dirección</dt><dd data-dato="telefono">{{teléfono de dirección}}</dd></div>
+            <div><dt>Orientación</dt><dd data-dato="orientador">Pregunta en tu escuela quién da orientación</dd></div>
+            <div><dt>Dónde encontrar orientación</dt><dd data-dato="ubicacion">Pregunta en la dirección dónde está orientación</dd></div>
+            <div><dt>Teléfono de dirección</dt><dd data-dato="telefono">Pídelo en la dirección de tu escuela</dd></div>
             <div><dt>También puedes acudir con</dt><dd>Cualquier docente o persona adulta de confianza</dd></div>
           </dl>
         </section>
@@ -186,11 +186,11 @@
     <!-- ═══════════ MÓDULO B: APRENDE A RECONOCERLO ═══════════ -->
     <section class="vista contenedor seccion" id="vista-aprende" data-vista="aprende" aria-labelledby="titulo-aprende" hidden>
       <h1 id="titulo-aprende" tabindex="-1">Aprende a reconocerlo</h1>
-      <p class="introduccion">Lee cada situación ficticia y elige la respuesta que te parezca más adecuada. Es un ejercicio para aprender, no un diagnóstico.</p>
+      <p class="introduccion">Lee cada situación ficticia y decide si es bullying, un problema que hay que atender o algo normal de la convivencia. Fíjate en tres claves: ¿se repite?, ¿busca dañar?, ¿a la persona le cuesta defenderse? Cada vez que reinicias salen situaciones distintas. Es un ejercicio para aprender, no un diagnóstico.</p>
 
       <div id="cuestionario">
         <div class="progreso">
-          <p class="progreso__texto" id="progresoTexto">Pregunta 1 de 7</p>
+          <p class="progreso__texto" id="progresoTexto">Pregunta 1 de 10</p>
           <div class="progreso__fondo" aria-hidden="true"><div class="progreso__barra" id="progresoBarra"></div></div>
         </div>
 
@@ -251,7 +251,8 @@
           <h2 id="tituloResultadosEncuesta" tabindex="-1">Resultados de este navegador</h2>
           <p class="respaldo" id="totalRespuestas"></p>
           <p class="texto-suave" id="notaPocasRespuestas" hidden>Con menos de 5 respuestas, los porcentajes cambian mucho y no muestran una tendencia.</p>
-          <p class="texto-suave">Cada barra muestra el porcentaje de respuestas positivas, es decir, las que indican buena convivencia (por ejemplo, responder “No” a la pregunta sobre burlas).</p>
+          <p class="puntaje" id="puntajeGeneral"></p>
+          <p class="texto-suave">Cada barra es un puntaje de 0 a 100: “Sí” suma 100, “A veces” suma 50 y “No” suma 0, y se saca el promedio. Por ejemplo, 2 “Sí” y 2 “A veces” dan 75. Debajo de cada barra ves cuántas personas eligieron cada respuesta.</p>
           <ul class="grafica" id="grafica"></ul>
           <p class="texto-suave">Los resultados son locales, no representan a toda la escuela y no se envían a nadie.</p>
         </div>

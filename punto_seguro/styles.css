@@ -286,14 +286,10 @@ textarea:focus-visible {
 .datos-escuela dt { font-weight: 700; color: var(--azul-900); }
 .datos-escuela dd { margin: 0; }
 
-/* Marcadores {{...}} pendientes de completar por la escuela */
+/* Texto genérico cuando la escuela no ha llenado sus datos */
 .marcador {
-  font-family: ui-monospace, Consolas, monospace;
-  font-size: .95em;
-  background: var(--azul-50);
-  border: 1px dashed var(--azul-700);
-  border-radius: 6px;
-  padding: 1px 6px;
+  font-style: italic;
+  color: var(--texto-suave);
 }
 
 .aviso {
@@ -424,6 +420,8 @@ textarea[aria-invalid="true"],
 .opcion[aria-disabled="true"]:hover { border-color: var(--borde); }
 
 /* Estados después de comprobar en el cuestionario (con texto, no solo color) */
+.opcion { flex-wrap: wrap; }   /* si no cabe, la etiqueta de estado baja a otro renglón */
+.opcion__texto { flex: 1 1 12rem; }
 .opcion__estado { margin-left: auto; font-size: .9rem; font-weight: 700; white-space: nowrap; }
 .opcion[data-estado="correcta"] { border-color: var(--exito); background: var(--exito-fondo); }
 .opcion[data-estado="correcta"] .opcion__estado { color: var(--exito); }
