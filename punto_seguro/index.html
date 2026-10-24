@@ -207,28 +207,17 @@
             <p class="error" id="errorTipo" hidden></p>
           </div>
 
-          <div class="campos-dobles">
-            <div class="campo">
-              <label class="etiqueta" for="lugar">¿Dónde pasa? <span class="opcional">(opcional)</span></label>
-              <select id="lugar" name="lugar">
-                <option value="">Prefiero no decir</option>
-                <option value="Salón de clases">Salón de clases</option>
-                <option value="Patio o cancha">Patio o cancha</option>
-                <option value="Baños o pasillos">Baños o pasillos</option>
-                <option value="Entrada o salida">Entrada o salida</option>
-                <option value="Redes sociales o chats">Redes sociales o chats</option>
-                <option value="Otro lugar">Otro lugar</option>
-              </select>
-            </div>
-            <div class="campo">
-              <label class="etiqueta" for="frecuencia">¿Con qué frecuencia? <span class="opcional">(opcional)</span></label>
-              <select id="frecuencia" name="frecuencia">
-                <option value="">Prefiero no decir</option>
-                <option value="Pasó una vez">Pasó una vez</option>
-                <option value="Varias veces">Varias veces</option>
-                <option value="Casi todos los días">Casi todos los días</option>
-              </select>
-            </div>
+          <div class="campo">
+            <label class="etiqueta" for="lugar">¿Dónde pasa? <span class="opcional">(opcional)</span></label>
+            <select id="lugar" name="lugar">
+              <option value="">Prefiero no decir</option>
+              <option value="Salón de clases">Salón de clases</option>
+              <option value="Patio o cancha">Patio o cancha</option>
+              <option value="Baños o pasillos">Baños o pasillos</option>
+              <option value="Entrada o salida">Entrada o salida</option>
+              <option value="Redes sociales o chats">Redes sociales o chats</option>
+              <option value="Otro lugar">Otro lugar</option>
+            </select>
           </div>
 
           <div class="campo">
@@ -243,11 +232,6 @@
             <p class="etiqueta" id="etiquetaPeligro">¿Hay peligro inmediato?</p>
             <div id="grupoPeligro"></div>
             <p class="error" id="errorPeligro" hidden></p>
-          </div>
-
-          <div class="campo">
-            <p class="etiqueta" id="etiquetaContacto">¿Cómo prefieres que te apoyen?</p>
-            <div id="grupoContacto"></div>
           </div>
 
           <p class="nota-privacidad">
@@ -269,15 +253,16 @@
           <span class="confirmacion__icono"><svg class="icono" aria-hidden="true"><use href="#icono-check"/></svg></span>
           <h3 class="confirmacion__titulo" id="tituloConfirmacion">Reporte recibido</h3>
           <p class="confirmacion__folio">Folio <strong id="folioReporte"></strong></p>
+          <p>Gracias por contarlo. Pedir ayuda es un paso valiente.</p>
           <div id="peligroConfirmacion"></div>
           <dl class="resumen" id="resumenReporte"></dl>
-          <h4>¿Qué sigue?</h4>
-          <ol class="pasos">
-            <li><strong>Orientación revisa tu reporte.</strong> Se lee con discreción, sin exhibirte frente al grupo.</li>
-            <li><strong>Te buscan en un momento privado</strong> o, si lo elegiste, se atiende de forma anónima.</li>
-            <li><strong>Acuerdan un plan contigo</strong> para que te sientas en un lugar seguro.</li>
-          </ol>
-          <p class="texto-suave nota-demo">Demostración para la exposición: en esta versión el reporte no llega a ninguna escuela. Si lo necesitas de verdad, habla hoy con orientación o con una persona adulta de confianza.</p>
+          <h4>Mientras tanto, puedes:</h4>
+          <ul class="lista">
+            <li>Hablar hoy con orientación o con un docente de confianza.</li>
+            <li>Guardar capturas si la situación pasa en internet.</li>
+            <li>Quedarte cerca de personas que te apoyan.</li>
+          </ul>
+          <p class="texto-suave nota-demo">Versión de demostración para la exposición: el reporte no llega a ninguna escuela. Si lo necesitas de verdad, habla con una persona adulta de confianza.</p>
           <div class="acciones">
             <button class="boton boton--primario" type="button" id="botonNuevoReporte">Hacer otro reporte</button>
             <a class="boton boton--secundario" href="#guia">Ver cómo puedo ayudar</a>
@@ -289,7 +274,7 @@
     <!-- ═══════════ MÓDULO B: APRENDE A RECONOCERLO ═══════════ -->
     <section class="vista contenedor seccion" id="vista-aprende" data-vista="aprende" aria-labelledby="titulo-aprende" hidden>
       <h1 id="titulo-aprende" tabindex="-1">Aprende a reconocerlo</h1>
-      <p class="introduccion">Diez retos de cinco tipos: clasificar casos, encontrar la clave que falta, leer chats, comparar dos situaciones y decidir qué harías. Cada ronda trae retos distintos. Es un ejercicio para aprender, no un diagnóstico.</p>
+      <p class="introduccion">Diez retos con casos, chats y comparaciones. Cada ronda es distinta. Es un ejercicio para aprender, no un diagnóstico.</p>
 
       <div id="cuestionario">
         <div class="progreso">
@@ -401,11 +386,6 @@
       <h1 id="titulo-guia" tabindex="-1">¿Cómo puedo ayudar?</h1>
       <p class="introduccion">Elige tu caso y verás acciones seguras, realistas y frases que puedes usar.</p>
 
-      <div class="aviso aviso--info">
-        <svg class="icono" aria-hidden="true"><use href="#icono-info"/></svg>
-        <p><strong>Esta aplicación no sustituye la ayuda de personas capacitadas ni los protocolos de tu escuela.</strong></p>
-      </div>
-
       <h2 id="titulo-casos">¿Cuál es tu caso?</h2>
       <div class="selector" id="selectorGuia" aria-labelledby="titulo-casos">
         <button class="opcion-grande" type="button" data-clave="mi" aria-pressed="false">Me está pasando a mí</button>
@@ -418,15 +398,18 @@
         <p class="texto-suave">Elige una opción para ver las recomendaciones.</p>
       </div>
 
-      <div class="urgente" role="note" aria-label="Ayuda urgente">
+      <!-- Bloque urgente del módulo D, con el tutorial del 911 desplegable.
+           En esta vista el pie no repite el bloque, porque ya está aquí. -->
+      <div class="urgente urgente--guia" role="note" aria-label="Ayuda urgente">
         <svg class="icono urgente__icono" aria-hidden="true"><use href="#icono-alerta"/></svg>
         <p class="urgente__texto">Si hay peligro inmediato, contacta a un adulto de confianza o llama al número de emergencias de tu país (911 en México).</p>
+        <details class="desplegable">
+          <summary>Cómo llamar al 911</summary>
+          <ol class="pasos pasos--tutorial" data-tutorial-911></ol>
+        </details>
       </div>
 
-      <section class="panel" aria-labelledby="titulo-tutorial">
-        <h2 id="titulo-tutorial">Cómo llamar al 911</h2>
-        <ol class="pasos pasos--tutorial" data-tutorial-911></ol>
-      </section>
+      <p class="nota-final">Esta aplicación no sustituye la ayuda de personas capacitadas ni los protocolos de tu escuela.</p>
     </section>
   </main>
 
@@ -438,7 +421,7 @@
         <p class="urgente__texto">Si hay peligro inmediato, contacta a un adulto de confianza o llama al número de emergencias de tu país (911 en México).</p>
         <button class="urgente__boton" type="button" data-abrir-911>¿Cómo llamar al 911?</button>
       </div>
-      <p class="pie__texto">Punto Seguro · Proyecto escolar. Busca contribuir a prevenir el bullying y orientar a quien lo necesita; no sustituye a las personas capacitadas ni los protocolos de tu escuela.</p>
+      <p class="pie__texto">Punto Seguro · Proyecto escolar para contribuir a prevenir el bullying y orientar a quien lo necesita.</p>
     </div>
   </footer>
 

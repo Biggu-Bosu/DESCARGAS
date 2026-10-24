@@ -6,12 +6,14 @@ Aplicación web escolar para **contribuir a prevenir el bullying** y orientar a 
 
 | Módulo | Qué hace | ¿Guarda datos? |
 |---|---|---|
-| **A · Necesito ayuda** | Orientación según 4 situaciones + formulario de reporte con envío simulado, folio y “¿Qué sigue?” | **No.** No envía ni guarda nada |
+| **A · Necesito ayuda** | Orientación según 4 situaciones + formulario breve (tipo, lugar opcional, descripción, ¿hay peligro?) con envío simulado y folio | **No.** No envía ni guarda nada |
 | **B · Aprende a reconocerlo** | Rondas de 10 retos de 5 tipos (clasificar, clave que falta, chat, comparar, ¿qué harías?) tomados al azar de un banco de 29 | **No.** Solo en memoria |
 | **C · Termómetro de convivencia** | Encuesta de 5 preguntas: resultado personal (termómetro 0–100) y resultados del grupo (barras apiladas hechas con HTML/CSS) | Solo **conteos del grupo** en `localStorage` |
-| **D · ¿Cómo puedo ayudar?** | Recomendaciones seguras y frases de ejemplo según 4 casos, más el tutorial para llamar al 911 | **No** |
+| **D · ¿Cómo puedo ayudar?** | Recomendaciones seguras y frases de ejemplo según 4 casos, más el tutorial desplegable para llamar al 911 | **No** |
 
-En el pie de todas las vistas hay un bloque fijo de ayuda urgente con un botón que abre el tutorial del 911 en una ventana con el diseño de la app.
+En el pie de las vistas hay un bloque fijo de ayuda urgente con un botón que abre el tutorial del 911 en una ventana con el diseño de la app. En el módulo D ese bloque está dentro de la página, así que el pie no lo repite.
+
+La app no necesita configurar nada: no hay datos de la escuela que llenar ni procesos fuera de la página.
 
 ## Estructura
 

@@ -14,11 +14,10 @@
 
 // Pasos del tutorial para llamar al 911 (se usan en el módulo D y en la ventana)
 const pasos911 = [
-  { titulo: 'Marca 911.', texto: 'Es gratis y funciona aunque no tengas saldo. Si el celular está bloqueado, toca “Emergencia” o “Llamada de emergencia” en la pantalla de bloqueo.' },
-  { titulo: 'Di qué pasa y dónde estás.', texto: 'Por ejemplo: “Hay una pelea con lesionados en la escuela secundaria…, en la calle…, frente a…”.' },
-  { titulo: 'Responde con calma.', texto: 'Contesta lo que te pregunten y no cuelgues hasta que te lo indiquen.' },
-  { titulo: 'Avisa a una persona adulta.', texto: 'Si puedes, busca también a un docente, prefecto o prefecta, o a alguien de tu familia.' },
-  { titulo: 'Si no es una emergencia,', texto: 'pero quieres denunciar algo de forma anónima, en México existe el 089.' }
+  { titulo: 'Marca 911.', texto: 'Es gratis y funciona sin saldo. Con el celular bloqueado, toca “Emergencia” en la pantalla.' },
+  { titulo: 'Di qué pasa y dónde estás.', texto: 'Nombre de la escuela, calle y algo que esté cerca.' },
+  { titulo: 'Responde con calma.', texto: 'No cuelgues hasta que te lo indiquen.' },
+  { titulo: 'Avisa a una persona adulta.', texto: 'Busca también a un docente o a alguien de tu familia.' }
 ];
 
 // Módulo A · Orientación según la situación
@@ -528,11 +527,6 @@ function crearGrupoOpciones({ contenedor, opciones, etiquetaId, enFila, alCambia
   return {
     elemento: contenedor,
     obtenerValor: () => valorActual,
-    // Elige una opción por su valor (se usa para el valor por defecto)
-    elegir(valor) {
-      const indice = opciones.findIndex((opcion) => opcion.valor === valor);
-      if (indice >= 0) seleccionar(indice);
-    },
     bloquear() {
       bloqueado = true;
       contenedor.setAttribute('aria-disabled', 'true');
@@ -673,6 +667,7 @@ function mostrarVista(nombre, moverFoco) {
     else enlace.removeAttribute('aria-current');
   });
   document.title = `${titulosVistas[nombre]} · Punto Seguro`;
+  document.body.dataset.vista = nombre; // el CSS lo usa para no repetir el bloque urgente
 
   if (moverFoco) {
     window.scrollTo(0, 0);
@@ -732,6 +727,14 @@ const nombresTipo = {
   'otra': 'Otra situación escolar'
 };
 
+// Cada botón de "¿Qué está pasando?" corresponde a un tipo del formulario
+const situacionATipo = {
+  sufro: 'me-pasa',
+  presencie: 'lo-vi',
+  conflicto: 'conflicto',
+  hablar: 'otra'
+};
+
 // Folio de aspecto real: PS-2026-4821 (es solo un número al azar)
 function crearFolio() {
   const numero = Math.floor(1000 + Math.random() * 9000);
@@ -744,7 +747,6 @@ function iniciarModuloAyuda() {
   const formulario = $('#formularioDemo');
   const tipo = $('#tipoSituacion');
   const lugar = $('#lugar');
-  const frecuencia = $('#frecuencia');
   const descripcion = $('#descripcion');
   const contador = $('#contadorDescripcion');
   const errorTipo = $('#errorTipo');
@@ -763,15 +765,13 @@ function iniciarModuloAyuda() {
     alCambiar: () => limpiarErrorCampo(grupoPeligro.elemento, errorPeligro)
   });
 
-  const grupoContacto = crearGrupoOpciones({
-    contenedor: $('#grupoContacto'),
-    opciones: [
-      { valor: 'discreto', texto: 'Que orientación me busque en privado' },
-      { valor: 'anonimo', texto: 'Prefiero que sea anónimo' }
-    ],
-    etiquetaId: 'etiquetaContacto'
+  // Si eligen una situación arriba, el formulario ya la trae seleccionada
+  $('#selectorAyuda').addEventListener('click', (evento) => {
+    const boton = evento.target.closest('[data-clave]');
+    if (!boton || !situacionATipo[boton.dataset.clave]) return;
+    tipo.value = situacionATipo[boton.dataset.clave];
+    limpiarErrorCampo(tipo, errorTipo);
   });
-  grupoContacto.elegir('discreto');
 
   function actualizarContador() {
     contador.textContent = `${descripcion.value.length} de 300 caracteres`;
@@ -823,8 +823,7 @@ function iniciarModuloAyuda() {
     resumen.textContent = '';
     agregarResumen(resumen, 'Situación', nombresTipo[datos.tipo]);
     agregarResumen(resumen, 'Lugar', datos.lugar || 'No indicado');
-    agregarResumen(resumen, 'Frecuencia', datos.frecuencia || 'No indicada');
-    agregarResumen(resumen, 'Seguimiento', datos.contacto === 'anonimo' ? 'Anónimo' : 'Orientación te busca en privado');
+    agregarResumen(resumen, 'Peligro inmediato', datos.hayPeligro ? 'Sí' : 'No');
 
     // Si hay peligro, es lo primero que se lee
     const peligro = $('#peligroConfirmacion');
@@ -860,8 +859,6 @@ function iniciarModuloAyuda() {
     const datos = {
       tipo: tipo.value,
       lugar: lugar.value,
-      frecuencia: frecuencia.value,
-      contacto: grupoContacto.obtenerValor(),
       hayPeligro: grupoPeligro.obtenerValor() === 'si'
     };
 
@@ -882,7 +879,6 @@ function iniciarModuloAyuda() {
   // El botón "Borrar todo" también reinicia los grupos y los errores
   formulario.addEventListener('reset', () => {
     grupoPeligro.reiniciar();
-    grupoContacto.elegir('discreto');
     limpiarErrorCampo(tipo, errorTipo);
     limpiarErrorCampo(descripcion, errorDescripcion);
     limpiarErrorCampo(grupoPeligro.elemento, errorPeligro);
@@ -1260,9 +1256,15 @@ function iniciarTermometro() {
     vistaGrupo.hidden = parte !== 'grupo';
   }
 
+  // El botón del grupo solo aparece cuando ya hay respuestas guardadas
+  function actualizarBotonGrupo() {
+    $('#botonVerGrupo').hidden = leerResultados().total === 0;
+  }
+
   function mostrarEncuesta() {
     grupos.forEach((grupo) => grupo.reiniciar());
     errorEncuesta.hidden = true;
+    actualizarBotonGrupo();
     mostrarParte('encuesta');
     window.scrollTo(0, 0);
     grupos[0].enfocar();
@@ -1399,7 +1401,7 @@ function iniciarTermometro() {
     try { localStorage.removeItem(clave); } catch (error) { /* almacenamiento bloqueado */ }
   });
 
-  leerResultados(); // muestra el aviso si el navegador bloquea el almacenamiento
+  actualizarBotonGrupo(); // también muestra el aviso si el navegador bloquea el almacenamiento
 }
 
 /* ----------------------------------------------------------
