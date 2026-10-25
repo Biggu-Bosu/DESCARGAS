@@ -22,6 +22,7 @@ Cada entrada tiene cinco partes: **prompt enviado**, **modelo**, **respuesta / c
 | 2 | 21 oct 2026 | Prompt general del proyecto, en otra conversación | Versión 1.1 en DESCARGAS |
 | 3 | 23 oct 2026 | Bitácora y correcciones para la exposición | Versión 2 en DESCARGAS |
 | 4 | 24 oct 2026 | Pulir UX/UI y quitar lo que dependa de procesos que no existen | Versión 2.1 en DESCARGAS |
+| 5 | 24 oct 2026 | Evaluar guardar los reportes y, al final, quitar el formulario | Versión 2.2 en DESCARGAS |
 
 ---
 
@@ -532,6 +533,48 @@ La IA volvió a revisar la app con capturas en tamaño de celular y aplicó camb
 
 - “Sin ser invasivo” fue una instrucción útil: limitó a la IA a corregir y simplificar en lugar de agregar funciones nuevas.
 - Quitar cosas también es diseño: el formulario quedó más corto y más honesto con lo que la app realmente puede hacer.
+
+---
+
+## Entrada 5 · Guardar los reportes o quitar el formulario
+
+**Fecha:** 24 de octubre de 2026
+**Modelo:** Claude Opus 5.5
+**Tipo de prompt:** conversación corta de tres mensajes, en la que el equipo cambió de idea al conocer las opciones.
+
+### Prompts enviados
+
+```text
+sobre el reporte de situacion, podemos hacer que realmente se guarde en alghun lugar? alguna carpeta de mi computadora o algo asi pero voy a necesitar que sea de facil acceso esa opcion por si la pagina pasa a otra computadora y cambia la ruta
+```
+
+```text
+lo otro que podemos hacer es quitarlo, porque creo que no debia de llevar bases de datos de ningun tipo
+```
+
+```text
+ese promt original yo lo hice, realmente las instrucciones son otras asi que puedes quitarlo
+```
+
+### Respuesta / código generado
+
+- **Primero, la IA explicó opciones sin programar nada:**
+  - Elegir una carpeta desde la página (solo Chrome y Edge).
+  - Descargar cada reporte como archivo.
+  - Un pequeño servidor local en Python.
+  - También advirtió que guardar reportes reales es guardar información sensible de menores.
+- **Después, con la decisión del equipo,** se quitó el formulario completo del módulo A: los campos, el envío simulado, el folio y sus estilos. El módulo A quedó con las 4 orientaciones y un enlace a “¿Cómo puedo ayudar?”.
+- **Lo único que la app guarda** son los conteos anónimos del Termómetro en `localStorage` del navegador, que no es una base de datos.
+
+### Ajustes realizados por el equipo
+
+- Descartamos guardar reportes en la computadora porque el proyecto no debe llevar bases de datos de ningún tipo.
+- Aclaramos que el prompt de las entradas 1 y 2 lo escribimos nosotros y que las instrucciones reales del proyecto son otras. Por eso quitamos el formulario aunque ese prompt lo pedía.
+
+### Reflexión de uso
+
+- Pedir primero las opciones, antes de que la IA programe, nos ayudó a darnos cuenta de que la idea no encajaba con las reglas del proyecto.
+- Un prompt escrito por nosotros no es la consigna del profesor: hay que revisar siempre contra las instrucciones reales.
 
 ---
 

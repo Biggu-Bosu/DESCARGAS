@@ -22,8 +22,6 @@
     <symbol id="icono-menu" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></symbol>
     <symbol id="icono-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
     <symbol id="icono-cerrar" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
-    <symbol id="icono-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
-    <symbol id="icono-candado" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
     <symbol id="icono-telefono" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
     <symbol id="icono-escuela" viewBox="0 0 24 24"><path d="m2 10 10-6 10 6-10 6-10-6z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
     <symbol id="icono-casa" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
@@ -99,7 +97,7 @@
             <a class="tarjeta" href="#ayuda">
               <span class="tarjeta__icono"><svg class="icono" aria-hidden="true"><use href="#icono-corazon"/></svg></span>
               <span class="tarjeta__titulo">Necesito ayuda</span>
-              <span class="tarjeta__texto">Orientación según lo que te pasa y un reporte breve para pedir apoyo.</span>
+              <span class="tarjeta__texto">Qué hacer y a quién acudir según lo que te pasa.</span>
             </a>
           </li>
           <li>
@@ -182,93 +180,9 @@
         <p class="texto-suave">Elige una opción para ver la orientación.</p>
       </div>
 
-      <!-- Formulario de reporte (simulado para la exposición) -->
-      <section class="panel panel--formulario separado" id="bloqueReporte" aria-labelledby="titulo-reporte">
-        <div class="formulario__cabecera">
-          <span class="formulario__icono"><svg class="icono" aria-hidden="true"><use href="#icono-candado"/></svg></span>
-          <div>
-            <h2 id="titulo-reporte">Reporta una situación</h2>
-            <p class="texto-suave">Cuéntalo en pocas palabras. No te pediremos tu nombre ni tu teléfono.</p>
-          </div>
-          <span class="insignia">Versión de demostración</span>
-        </div>
-
-        <form class="formulario" id="formularioDemo" novalidate autocomplete="off">
-          <div class="campo">
-            <label class="etiqueta" for="tipoSituacion">Tipo de situación</label>
-            <select id="tipoSituacion" name="tipoSituacion" aria-describedby="ayudaTipo">
-              <option value="">Elige una opción</option>
-              <option value="me-pasa">Bullying que me está pasando</option>
-              <option value="lo-vi">Bullying que vi</option>
-              <option value="conflicto">Conflicto con otra persona</option>
-              <option value="otra">Otra situación escolar</option>
-            </select>
-            <p class="pista" id="ayudaTipo">Elige la que más se parezca.</p>
-            <p class="error" id="errorTipo" hidden></p>
-          </div>
-
-          <div class="campo">
-            <label class="etiqueta" for="lugar">¿Dónde pasa? <span class="opcional">(opcional)</span></label>
-            <select id="lugar" name="lugar">
-              <option value="">Prefiero no decir</option>
-              <option value="Salón de clases">Salón de clases</option>
-              <option value="Patio o cancha">Patio o cancha</option>
-              <option value="Baños o pasillos">Baños o pasillos</option>
-              <option value="Entrada o salida">Entrada o salida</option>
-              <option value="Redes sociales o chats">Redes sociales o chats</option>
-              <option value="Otro lugar">Otro lugar</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label class="etiqueta" for="descripcion">Describe brevemente lo que pasa</label>
-            <textarea id="descripcion" name="descripcion" rows="4" maxlength="300" aria-describedby="ayudaDescripcion contadorDescripcion"></textarea>
-            <p class="pista" id="ayudaDescripcion">No escribas nombres completos, teléfonos ni datos personales. Entre 10 y 300 caracteres.</p>
-            <p class="pista contador" id="contadorDescripcion">0 de 300 caracteres</p>
-            <p class="error" id="errorDescripcion" hidden></p>
-          </div>
-
-          <div class="campo">
-            <p class="etiqueta" id="etiquetaPeligro">¿Hay peligro inmediato?</p>
-            <div id="grupoPeligro"></div>
-            <p class="error" id="errorPeligro" hidden></p>
-          </div>
-
-          <p class="nota-privacidad">
-            <svg class="icono" aria-hidden="true"><use href="#icono-candado"/></svg>
-            Lo que escribes no se guarda en este dispositivo.
-          </p>
-
-          <div class="acciones">
-            <button class="boton boton--primario" type="submit" id="botonEnviar">
-              <span class="cargando" aria-hidden="true" hidden></span>
-              <span id="textoBotonEnviar">Enviar reporte</span>
-            </button>
-            <button class="boton boton--secundario" type="reset">Borrar todo</button>
-          </div>
-        </form>
-
-        <!-- Confirmación (se muestra después de "enviar") -->
-        <div class="confirmacion" id="resultadoFormulario" tabindex="-1" hidden>
-          <span class="confirmacion__icono"><svg class="icono" aria-hidden="true"><use href="#icono-check"/></svg></span>
-          <h3 class="confirmacion__titulo" id="tituloConfirmacion">Reporte recibido</h3>
-          <p class="confirmacion__folio">Folio <strong id="folioReporte"></strong></p>
-          <p>Gracias por contarlo. Pedir ayuda es un paso valiente.</p>
-          <div id="peligroConfirmacion"></div>
-          <dl class="resumen" id="resumenReporte"></dl>
-          <h4>Mientras tanto, puedes:</h4>
-          <ul class="lista">
-            <li>Hablar hoy con orientación o con un docente de confianza.</li>
-            <li>Guardar capturas si la situación pasa en internet.</li>
-            <li>Quedarte cerca de personas que te apoyan.</li>
-          </ul>
-          <p class="texto-suave nota-demo">Versión de demostración para la exposición: el reporte no llega a ninguna escuela. Si lo necesitas de verdad, habla con una persona adulta de confianza.</p>
-          <div class="acciones">
-            <button class="boton boton--primario" type="button" id="botonNuevoReporte">Hacer otro reporte</button>
-            <a class="boton boton--secundario" href="#guia">Ver cómo puedo ayudar</a>
-          </div>
-        </div>
-      </section>
+      <div class="acciones">
+        <a class="boton boton--secundario" href="#guia">Ver cómo puedo ayudar</a>
+      </div>
     </section>
 
     <!-- ═══════════ MÓDULO B: APRENDE A RECONOCERLO ═══════════ -->

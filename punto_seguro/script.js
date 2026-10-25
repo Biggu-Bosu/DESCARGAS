@@ -417,9 +417,6 @@ function mezclar(lista) {
   return copia;
 }
 
-// ¿La persona pidió reducir animaciones en su sistema?
-const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 // Muestra un panel con título, mensaje, acciones y (si hay) frases de ejemplo
 function pintarOrientacion(panel, contenido) {
   panel.textContent = '';
@@ -714,185 +711,13 @@ function iniciarNavegacion() {
 
 /* ----------------------------------------------------------
    7. MÓDULO A · NECESITO AYUDA
-   El reporte es una SIMULACIÓN para la exposición:
-   - No se envía a ningún lado (no hay internet ni servidor).
-   - No se guarda nada (ni localStorage ni otro almacenamiento).
-   - Se ve como un envío real para que la demostración convenza.
+   Solo muestra orientación según la situación elegida.
+   No hay formulario: la app no recibe ni guarda nada de lo
+   que vive el estudiante.
    ---------------------------------------------------------- */
-
-const nombresTipo = {
-  'me-pasa': 'Bullying que me está pasando',
-  'lo-vi': 'Bullying que vi',
-  'conflicto': 'Conflicto con otra persona',
-  'otra': 'Otra situación escolar'
-};
-
-// Cada botón de "¿Qué está pasando?" corresponde a un tipo del formulario
-const situacionATipo = {
-  sufro: 'me-pasa',
-  presencie: 'lo-vi',
-  conflicto: 'conflicto',
-  hablar: 'otra'
-};
-
-// Folio de aspecto real: PS-2026-4821 (es solo un número al azar)
-function crearFolio() {
-  const numero = Math.floor(1000 + Math.random() * 9000);
-  return `PS-${new Date().getFullYear()}-${numero}`;
-}
 
 function iniciarModuloAyuda() {
   iniciarSelector($('#selectorAyuda'), $('#orientacionAyuda'), contenidoAyuda);
-
-  const formulario = $('#formularioDemo');
-  const tipo = $('#tipoSituacion');
-  const lugar = $('#lugar');
-  const descripcion = $('#descripcion');
-  const contador = $('#contadorDescripcion');
-  const errorTipo = $('#errorTipo');
-  const errorDescripcion = $('#errorDescripcion');
-  const errorPeligro = $('#errorPeligro');
-  const confirmacion = $('#resultadoFormulario');
-  const botonEnviar = $('#botonEnviar');
-  const cargando = botonEnviar.querySelector('.cargando');
-  const textoBoton = $('#textoBotonEnviar');
-
-  const grupoPeligro = crearGrupoOpciones({
-    contenedor: $('#grupoPeligro'),
-    opciones: [{ valor: 'si', texto: 'Sí' }, { valor: 'no', texto: 'No' }],
-    etiquetaId: 'etiquetaPeligro',
-    enFila: true,
-    alCambiar: () => limpiarErrorCampo(grupoPeligro.elemento, errorPeligro)
-  });
-
-  // Si eligen una situación arriba, el formulario ya la trae seleccionada
-  $('#selectorAyuda').addEventListener('click', (evento) => {
-    const boton = evento.target.closest('[data-clave]');
-    if (!boton || !situacionATipo[boton.dataset.clave]) return;
-    tipo.value = situacionATipo[boton.dataset.clave];
-    limpiarErrorCampo(tipo, errorTipo);
-  });
-
-  function actualizarContador() {
-    contador.textContent = `${descripcion.value.length} de 300 caracteres`;
-  }
-
-  tipo.addEventListener('change', () => limpiarErrorCampo(tipo, errorTipo));
-  descripcion.addEventListener('input', () => {
-    actualizarContador();
-    limpiarErrorCampo(descripcion, errorDescripcion);
-  });
-
-  // Validación: devuelve el primer campo con error (o null si todo está bien)
-  function validar() {
-    let primerError = null;
-
-    if (!tipo.value) {
-      mostrarErrorCampo(tipo, errorTipo, 'Elige el tipo de situación.');
-      primerError = primerError || tipo;
-    }
-
-    const largo = descripcion.value.trim().length;
-    if (largo === 0) {
-      mostrarErrorCampo(descripcion, errorDescripcion, 'Escribe una descripción breve de lo que pasa.');
-      primerError = primerError || descripcion;
-    } else if (largo < 10) {
-      mostrarErrorCampo(descripcion, errorDescripcion, `Escribe al menos 10 caracteres (llevas ${largo}).`);
-      primerError = primerError || descripcion;
-    }
-
-    if (!grupoPeligro.obtenerValor()) {
-      mostrarErrorCampo(grupoPeligro.elemento, errorPeligro, 'Indica si hay peligro inmediato: elige “Sí” o “No”.');
-      primerError = primerError || grupoPeligro;
-    }
-
-    return primerError;
-  }
-
-  // Agrega una fila al resumen de la confirmación
-  function agregarResumen(lista, nombre, valor) {
-    const fila = crearElemento('div');
-    fila.append(crearElemento('dt', '', nombre), crearElemento('dd', '', valor));
-    lista.appendChild(fila);
-  }
-
-  function mostrarConfirmacion(datos) {
-    $('#folioReporte').textContent = crearFolio();
-
-    const resumen = $('#resumenReporte');
-    resumen.textContent = '';
-    agregarResumen(resumen, 'Situación', nombresTipo[datos.tipo]);
-    agregarResumen(resumen, 'Lugar', datos.lugar || 'No indicado');
-    agregarResumen(resumen, 'Peligro inmediato', datos.hayPeligro ? 'Sí' : 'No');
-
-    // Si hay peligro, es lo primero que se lee
-    const peligro = $('#peligroConfirmacion');
-    peligro.textContent = '';
-    if (datos.hayPeligro) {
-      const caja = crearElemento('div', 'urgente urgente--compacto');
-      caja.appendChild(crearElemento('p', 'urgente__texto',
-        'Indicaste que hay peligro inmediato: no esperes la respuesta. Busca ahora a una persona adulta o llama al 911.'));
-      const boton = crearElemento('button', 'urgente__boton', '¿Cómo llamar al 911?');
-      boton.type = 'button';
-      boton.setAttribute('data-abrir-911', '');
-      caja.appendChild(boton);
-      peligro.appendChild(caja);
-    }
-
-    formulario.hidden = true;
-    confirmacion.hidden = false;
-    confirmacion.focus();
-  }
-
-  formulario.addEventListener('submit', (evento) => {
-    evento.preventDefault(); // nunca se envía a ningún lado
-
-    const primerError = validar();
-    if (primerError) {
-      if (primerError === grupoPeligro) grupoPeligro.enfocar();
-      else primerError.focus();
-      return;
-    }
-
-    // Copiamos lo necesario para el resumen y borramos el formulario de inmediato.
-    // La descripción NO se copia: no se muestra ni se guarda en ningún lado.
-    const datos = {
-      tipo: tipo.value,
-      lugar: lugar.value,
-      hayPeligro: grupoPeligro.obtenerValor() === 'si'
-    };
-
-    // Simulamos el envío: el botón muestra "Enviando…" un momento
-    botonEnviar.disabled = true;
-    cargando.hidden = false;
-    textoBoton.textContent = 'Enviando de forma segura…';
-
-    setTimeout(() => {
-      formulario.reset();
-      botonEnviar.disabled = false;
-      cargando.hidden = true;
-      textoBoton.textContent = 'Enviar reporte';
-      mostrarConfirmacion(datos);
-    }, reducirMovimiento ? 300 : 1400);
-  });
-
-  // El botón "Borrar todo" también reinicia los grupos y los errores
-  formulario.addEventListener('reset', () => {
-    grupoPeligro.reiniciar();
-    limpiarErrorCampo(tipo, errorTipo);
-    limpiarErrorCampo(descripcion, errorDescripcion);
-    limpiarErrorCampo(grupoPeligro.elemento, errorPeligro);
-    // reset() vacía los campos después de este evento; esperamos un instante
-    setTimeout(actualizarContador, 0);
-  });
-
-  $('#botonNuevoReporte').addEventListener('click', () => {
-    confirmacion.hidden = true;
-    formulario.hidden = false;
-    tipo.focus();
-  });
-
-  actualizarContador();
 }
 
 /* ----------------------------------------------------------

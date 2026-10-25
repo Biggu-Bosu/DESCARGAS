@@ -73,13 +73,12 @@ a { color: var(--azul-700); }
 
 /* El encabezado es fijo (sticky): este margen evita que tape lo que recibe
    el foco o al hacer scroll hacia una explicación */
-[tabindex="-1"], .opcion, .boton, select, textarea { scroll-margin-top: 88px; }
+[tabindex="-1"], .opcion, .boton { scroll-margin-top: 88px; }
 
 /* Foco visible en TODO lo interactivo (requisito de accesibilidad) */
 a:focus-visible,
 button:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
+summary:focus-visible {
   outline: 3px solid var(--azul-700);
   outline-offset: 3px;
 }
@@ -218,10 +217,9 @@ textarea:focus-visible {
   cursor: pointer;
   text-align: center;
 }
-.boton:disabled { opacity: .75; cursor: progress; }
 
 .boton--primario { background: var(--azul-700); color: var(--blanco); }
-.boton--primario:hover:not(:disabled) { background: var(--azul-800); }
+.boton--primario:hover { background: var(--azul-800); }
 
 .boton--secundario { background: var(--blanco); color: var(--azul-800); border-color: var(--azul-700); }
 .boton--secundario:hover { background: var(--azul-50); }
@@ -231,19 +229,6 @@ textarea:focus-visible {
 
 .boton--peligro { background: var(--error); color: var(--blanco); }
 .boton--peligro:hover { background: #991b1b; }
-
-/* Círculo que gira mientras se "envía" el reporte */
-.cargando {
-  width: 18px;
-  height: 18px;
-  border: 3px solid rgba(255, 255, 255, .4);
-  border-top-color: var(--blanco);
-  border-radius: 50%;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .cargando { animation: girar .8s linear infinite; }
-}
-@keyframes girar { to { transform: rotate(360deg); } }
 
 /* ---------- 5. Portada (inicio) ---------- */
 .portada {
@@ -302,8 +287,7 @@ textarea:focus-visible {
 .tarjeta .tarjeta__icono { grid-row: 1 / 3; }
 
 .tarjeta__icono,
-.contacto__icono,
-.formulario__icono {
+.contacto__icono {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -436,31 +420,8 @@ textarea:focus-visible {
   box-shadow: inset 6px 0 0 var(--azul-700);
 }
 
-/* ---------- 9. Formularios ---------- */
+/* ---------- 9. Formulario de la encuesta ---------- */
 .formulario { margin-top: 16px; }
-.campo { margin-bottom: 22px; }
-
-.formulario__cabecera {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 16px;
-  align-items: flex-start;
-}
-.formulario__cabecera > div { flex: 1 1 220px; }
-.formulario__cabecera h2 { margin-bottom: 4px; }
-.formulario__cabecera p { margin: 0; }
-
-/* Insignia discreta: deja claro que es una demostración sin quitar confianza */
-.insignia {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--gris-600);
-  background: var(--fondo);
-  border: 1px solid var(--borde);
-  border-radius: 999px;
-  padding: 3px 10px;
-  white-space: nowrap;
-}
 
 .etiqueta {
   display: block;
@@ -468,76 +429,15 @@ textarea:focus-visible {
   margin-bottom: 6px;
   color: var(--azul-900);
 }
-.opcional { font-weight: 400; color: var(--texto-suave); }
 
-select,
-textarea {
-  width: 100%;
-  font: inherit;
-  color: var(--texto);
-  background: var(--blanco);
-  border: 2px solid var(--borde);
-  border-radius: 10px;
-  padding: 12px;
-  min-height: 48px;
-}
-textarea { resize: vertical; }
+.grupo-opciones[aria-invalid="true"] { border-color: var(--error); }
 
-select[aria-invalid="true"],
-textarea[aria-invalid="true"],
-.grupo-opciones[aria-invalid="true"] {
-  border-color: var(--error);
-}
-
-.pista { font-size: .95rem; color: var(--texto-suave); margin: 6px 0 0; }
-.contador { text-align: right; }
 .error { color: var(--error); font-weight: 600; margin: 6px 0 0; }
 .error::before { content: "⚠ "; }
-
-.nota-privacidad {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: .95rem;
-  color: var(--texto-suave);
-  margin: 0;
-}
-.nota-privacidad .icono { width: 1.2em; height: 1.2em; color: var(--azul-700); }
-
-/* Confirmación del reporte */
-.confirmacion { text-align: left; padding-top: 8px; }
-.confirmacion:focus { outline: none; }
-.confirmacion__icono {
-  display: inline-flex;
-  width: 64px;
-  height: 64px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--exito-fondo);
-  color: var(--exito);
-}
-.confirmacion__icono .icono { width: 2.2rem; height: 2.2rem; }
-.confirmacion__titulo { font-size: 1.5rem; margin: 12px 0 4px; }
-.confirmacion__folio { color: var(--texto-suave); }
-.confirmacion__folio strong { color: var(--azul-900); font-family: ui-monospace, Consolas, monospace; letter-spacing: .03em; }
-
-.resumen {
-  display: grid;
-  gap: 10px;
-  margin: 16px 0;
-  padding: 16px;
-  background: var(--fondo);
-  border-radius: 12px;
-}
-.resumen dt { font-size: .9rem; color: var(--texto-suave); }
-.resumen dd { margin: 0; font-weight: 600; }
 
 .pasos { padding-left: 1.4em; margin: 0 0 1em; }
 .pasos li { margin-bottom: .6em; padding-left: .2em; }
 .pasos li::marker { font-weight: 800; color: var(--azul-700); }
-
-.nota-demo { font-size: .9rem; border-top: 1px solid var(--borde-suave); padding-top: 12px; }
 
 /* ---------- 10. Grupo de opciones tipo "radio" ---------- */
 .grupo-opciones {
@@ -784,7 +684,6 @@ textarea[aria-invalid="true"],
   border-left: 6px solid var(--urgente-acento);
   border-radius: var(--radio);
 }
-.urgente--compacto { margin: 16px 0; }
 .urgente__icono { color: var(--urgente-acento); width: 1.8rem; height: 1.8rem; }
 .urgente__texto { flex: 1 1 240px; margin: 0; font-weight: 700; font-size: 1rem; }
 
@@ -908,7 +807,6 @@ body[data-vista="guia"] .pie .urgente { display: none; }
   .tarjetas, .selector, .contactos { grid-template-columns: repeat(2, 1fr); }
   .claves { grid-template-columns: repeat(3, 1fr); }
   .comparar { grid-template-columns: 1fr 1fr; }
-  .resumen { grid-template-columns: 1fr 1fr; }
   .panel { padding: 28px; }
   .portada { padding: 72px 0; }
 }

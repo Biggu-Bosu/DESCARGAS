@@ -6,7 +6,7 @@ Aplicación web escolar para **contribuir a prevenir el bullying** y orientar a 
 
 | Módulo | Qué hace | ¿Guarda datos? |
 |---|---|---|
-| **A · Necesito ayuda** | Orientación según 4 situaciones + formulario breve (tipo, lugar opcional, descripción, ¿hay peligro?) con envío simulado y folio | **No.** No envía ni guarda nada |
+| **A · Necesito ayuda** | Orientación y acciones concretas según 4 situaciones | **No** |
 | **B · Aprende a reconocerlo** | Rondas de 10 retos de 5 tipos (clasificar, clave que falta, chat, comparar, ¿qué harías?) tomados al azar de un banco de 29 | **No.** Solo en memoria |
 | **C · Termómetro de convivencia** | Encuesta de 5 preguntas: resultado personal (termómetro 0–100) y resultados del grupo (barras apiladas hechas con HTML/CSS) | Solo **conteos del grupo** en `localStorage` |
 | **D · ¿Cómo puedo ayudar?** | Recomendaciones seguras y frases de ejemplo según 4 casos, más el tutorial desplegable para llamar al 911 | **No** |
@@ -45,6 +45,6 @@ punto_seguro/
 
 ## Limitaciones
 
-- Es un prototipo: el reporte no llega a ninguna escuela (se indica con una insignia discreta “Versión de demostración”).
+- No tiene formulario de reporte: el equipo decidió no recibir ni guardar relatos de los estudiantes. Para pedir ayuda, la app orienta hacia personas reales (orientación, docentes, familia).
 - Los resultados del grupo son de un solo dispositivo y no representan a toda la escuela.
 - No sustituye la ayuda de personas capacitadas ni los protocolos de la escuela.
