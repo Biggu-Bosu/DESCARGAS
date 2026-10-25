@@ -4,8 +4,8 @@ Aquí está siempre la **versión más reciente** de cada app para Android. GitH
 
 | App | Android (APK) | iPhone (web) |
 |---|---|---|
-| Mi Gimnasio | [app1-gym](app1-gym) | Ver la dirección en la pestaña Actions de APPS |
-| FinTrack | [app3-fintrack](app3-fintrack) | Ver la dirección en la pestaña Actions de APPS |
+| Mi Gimnasio | [app1-gym](app1-gym) | https://app1-gym.vercel.app |
+| FinTrack | [app3-fintrack](app3-fintrack) | https://app3-fintrack.vercel.app |
 
 ## Cómo instalar en Android
 
