@@ -1,6 +1,6 @@
 # CiberEscudo · Entregables
 
-Documentos del proyecto escolar **CiberEscudo**, la app de seguridad digital para la Preparatoria «Lázaro Cárdenas».
+Documentos del proyecto escolar **CiberEscudo**, la app de seguridad digital y convivencia para la Preparatoria «Lázaro Cárdenas».
 
 | Archivo | Qué es |
 |---|---|
