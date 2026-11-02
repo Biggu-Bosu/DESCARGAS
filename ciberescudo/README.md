@@ -8,6 +8,7 @@ Documentos del proyecto escolar **CiberEscudo**, la app de seguridad digital par
 | [DOCUMENTACION_TECNICA.docx](entregables/DOCUMENTACION_TECNICA.docx) | Contexto del problema, descripción de las pantallas, herramientas usadas y conclusiones |
 | [GUION.pptx](entregables/GUION.pptx) | Presentación de 10 diapositivas para la exposición |
 | [PITCH.docx](entregables/PITCH.docx) | Discurso de 1 minuto para la presentación oral |
+| [README.md](entregables/README.md) | Cómo ejecutar la app, manual de pruebas (XP, tareas, verificador, convivencia y accesibilidad) y privacidad |
 
 La app para Android está en [apps/app5-ciberescudo](../apps/app5-ciberescudo).
 
