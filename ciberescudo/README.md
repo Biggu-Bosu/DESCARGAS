@@ -10,6 +10,16 @@ Documentos del proyecto escolar **CiberEscudo**, la app de seguridad digital y c
 | [PITCH.docx](entregables/PITCH.docx) | Discurso de 1 minuto para la presentación oral |
 | [README.md](entregables/README.md) | Cómo ejecutar la app, manual de pruebas (XP, tareas, verificador, convivencia y accesibilidad) y privacidad |
 
+## App web para computadora
+
+**[CiberEscudo-web.zip](CiberEscudo-web.zip)** (140 KB) trae la app completa para usarla en una computadora, sin instalar nada y sin internet.
+
+1. Abre el archivo y toca **Download raw** (o el botón de descarga).
+2. Descomprímelo (clic derecho → «Extraer todo»).
+3. Entra a la carpeta `CiberEscudo` y abre `index.html` con doble clic.
+
+El avance se guarda solo en ese navegador. También se puede usar en línea: https://app5-ciberescudo.vercel.app
+
 La app para Android está en [apps/app5-ciberescudo](../apps/app5-ciberescudo).
 
 ## Antes de entregar
