@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ubica · Wireframes</title>
+<!--
+  Wireframes (bocetos de baja fidelidad) de Ubica, hechos ANTES de programar.
+  Solo grises: aquí se decide qué va en cada pantalla y en qué orden, no los colores.
+  Para convertirlo en PDF y PNG: python3 hacer_wireframes.py
+-->
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #222; background: #fff; }
+  .pagina { width: 11in; height: 8.5in; padding: 0.35in 0.45in; page-break-after: always; position: relative; }
+  .pagina:last-child { page-break-after: auto; }
+  .encabezado { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #222; padding-bottom: 6px; margin-bottom: 14px; }
+  .encabezado h1 { font-size: 20px; margin: 0; }
+  .encabezado span { font-size: 12px; color: #666; }
+  .pie { position: absolute; left: 0.45in; right: 0.45in; bottom: 0.25in; font-size: 10px; color: #888; display: flex; justify-content: space-between; }
+  .fila { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .pantalla { position: relative; }
+  .pantalla h2 { font-size: 13px; margin: 0 0 6px; }
+  .pantalla ol { margin: 8px 0 0; padding-left: 18px; font-size: 10.5px; line-height: 1.35; color: #333; }
+  .pantalla ol li { margin-bottom: 2px; }
+
+  /* ---------- Teléfono ---------- */
+  .tel { width: 214px; height: 464px; margin-left: 20px; border: 2px solid #333; border-radius: 22px; padding: 14px 8px 8px; position: relative; overflow: hidden; background: #fff; display: flex; flex-direction: column; gap: 5px; }
+  .tel::before { content: ""; position: absolute; top: 5px; left: 50%; width: 46px; height: 5px; margin-left: -23px; border-radius: 3px; background: #333; }
+  .barra { display: flex; gap: 4px; align-items: center; }
+  .caja { border: 1.5px solid #888; border-radius: 6px; background: #f2f2f2; font-size: 9px; color: #555; display: flex; align-items: center; justify-content: center; text-align: center; padding: 2px 4px; }
+  .caja.izq { justify-content: flex-start; }
+  .alto { height: 26px; }
+  .cuad { width: 26px; height: 26px; flex: none; }
+  .crece { flex: 1; min-width: 0; }
+  .oscura { background: #555; color: #fff; border-color: #555; }
+  .segmento { display: flex; border: 1.5px solid #888; border-radius: 6px; overflow: hidden; height: 22px; }
+  .segmento div { flex: 1; font-size: 9px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #888; }
+  .segmento div:last-child { border-right: none; }
+  .segmento .activo { background: #555; color: #fff; }
+  .lienzo { flex: 1; border: 1.5px dashed #999; border-radius: 6px; position: relative; background: #fafafa; }
+  .lienzo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .flotante { position: absolute; right: 5px; display: flex; flex-direction: column; gap: 4px; }
+  .flotante .caja { width: 22px; height: 22px; border-radius: 50%; }
+  .paleta { display: flex; gap: 4px; }
+  .paleta .caja { flex: 1; height: 34px; flex-direction: column; }
+  .chips { display: flex; gap: 4px; }
+  .chip { border: 1.5px solid #888; border-radius: 10px; font-size: 8.5px; padding: 3px 6px; white-space: nowrap; }
+  .chip.marcado { border-style: dashed; border-width: 2px; }
+  .linea { height: 6px; border-radius: 3px; background: #ccc; }
+  .linea.corta { width: 55%; }
+  .linea.media { width: 75%; }
+  .titulo { height: 9px; width: 60%; border-radius: 3px; background: #888; }
+  .velo { position: absolute; inset: 0; border-radius: 20px; background: rgba(0,0,0,0.25); }
+  .hoja { position: absolute; left: 0; right: 0; bottom: 0; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; background: #fff; border-top: 2px solid #333; border-radius: 16px 16px 0 0; padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+  .asa { width: 34px; height: 4px; border-radius: 2px; background: #999; margin: 0 auto 2px; }
+  .renglon { display: flex; gap: 5px; align-items: center; border-bottom: 1px solid #ddd; padding: 3px 0; }
+  .renglon .texto { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .num { position: absolute; width: 15px; height: 15px; border-radius: 50%; background: #222; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 5; }
+  .seccion { font-size: 9px; font-weight: 700; color: #444; margin-top: 3px; }
+  table.mini { width: 100%; border-collapse: collapse; font-size: 7.5px; }
+  table.mini td, table.mini th { border: 1px solid #aaa; padding: 2px; text-align: left; }
+  table.mini th { background: #e6e6e6; }
+  .aviso { position: absolute; left: 14px; right: 14px; bottom: 60px; border-radius: 14px; background: #333; color: #fff; font-size: 9px; padding: 6px 8px; display: flex; justify-content: space-between; }
+
+  /* ---------- Portada y mapa ---------- */
+  .portada { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; }
+  .portada h1 { font-size: 34px; margin: 10px 0 4px; }
+  .portada p { font-size: 13px; line-height: 1.5; color: #333; }
+  .portada ul { font-size: 12px; line-height: 1.55; padding-left: 18px; }
+  .mapa { border: 1.5px solid #888; border-radius: 10px; padding: 14px; }
+  .mapa h3 { margin: 0 0 10px; font-size: 14px; }
+  .nodo { border: 1.5px solid #555; border-radius: 6px; padding: 5px 8px; font-size: 11px; background: #f2f2f2; display: inline-block; }
+  .nodo.principal { background: #555; color: #fff; }
+  .flujo { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: center; font-size: 11px; }
+  .flecha { color: #666; }
+</style>
+</head>
+<body>
+
+<!-- ======================= PÁGINA 1: PORTADA Y MAPA ======================= -->
+<section class="pagina">
+  <div class="encabezado"><h1>Ubica · Wireframes</h1><span>Bocetos de baja fidelidad hechos antes de programar</span></div>
+  <div class="portada">
+    <div>
+      <h1>Ubica</h1>
+      <p><strong>El inventario que también dice dónde está cada cosa.</strong> La escuela crea sus espacios (laboratorios, salones, bodegas) en una vista isométrica, coloca muebles con un toque y cada mueble guarda el equipo que tiene dentro. También registra préstamos.</p>
+      <p><strong>Por qué en gris:</strong> un wireframe decide qué hay en cada pantalla y en qué orden, sin distraerse con colores. Los números negros (●) señalan las partes que se explican debajo de cada pantalla.</p>
+      <ul>
+        <li><strong>Celular primero:</strong> 390 × 844 px, una mano, botones de al menos 48 px.</li>
+        <li><strong>Lo más usado abajo,</strong> al alcance del pulgar: la paleta de muebles.</li>
+        <li><strong>Hojas que suben desde abajo</strong> para las fichas: no te sacan del plano.</li>
+        <li><strong>Dos formas de ver lo mismo:</strong> Plano (visual) y Lista (texto, para lector de pantalla).</li>
+        <li><strong>Sin internet:</strong> todo se guarda en una base de datos IndexedDB dentro del celular.</li>
+      </ul>
+    </div>
+    <div class="mapa">
+      <h3>Mapa de navegación</h3>
+      <div class="flujo">
+        <span class="nodo principal">Plano</span><span>pantalla principal: el espacio en vista isométrica</span>
+        <span class="flecha">↳ tocar mueble</span><span><span class="nodo">Ficha del mueble</span> → <span class="nodo">Ficha del equipo</span> → <span class="nodo">Prestar</span></span>
+        <span class="flecha">↳ ＋ / editar</span><span><span class="nodo">Espacio</span> (nombre, tipo, medidas)</span>
+        <span class="nodo principal">Lista</span><span>todo el equipo en texto, por espacio y mueble</span>
+        <span class="nodo principal">Préstamos</span><span>activos (vencidos primero) e historial</span>
+        <span class="flecha">↳ menú ⋯</span><span><span class="nodo">Respaldo</span> · <span class="nodo">Exportar CSV</span> · <span class="nodo">Base de datos</span> · <span class="nodo">Novedades</span></span>
+      </div>
+      <h3 style="margin-top:18px">Gestos en el plano</h3>
+      <div class="flujo">
+        <span class="nodo">1 dedo · toque</span><span>colocar el mueble elegido o abrir la ficha</span>
+        <span class="nodo">1 dedo · arrastre</span><span>mover la vista (nunca coloca nada)</span>
+        <span class="nodo">2 dedos</span><span>pellizco = zoom, deslizar = mover la vista</span>
+        <span class="nodo">Botón Atrás</span><span>cierra la hoja abierta antes de salir</span>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Ubica · Wireframes</span><span>1</span></div>
+</section>
+
+<!-- ======================= PÁGINA 2 ======================= -->
+<section class="pagina">
+  <div class="encabezado"><h1>Pantallas principales</h1><span>Primer uso · Plano · Colocar · Ficha del mueble</span></div>
+  <div class="fila">
+
+    <div class="pantalla">
+      <h2>1. Primer uso (sin espacios)</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece izq">Ubica</div><div class="caja cuad">⋯</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; position:relative">
+          <span class="num" style="top:20px; left:20px">1</span>
+          <div class="caja" style="width:90px; height:70px">ilustración<br>isométrica</div>
+          <div class="titulo" style="width:70%"></div>
+          <div class="linea media"></div><div class="linea corta"></div>
+          <span class="num" style="top:210px; left:8px">2</span>
+          <div class="caja oscura alto" style="width:80%">Crear mi primer espacio</div>
+          <div class="caja alto" style="width:80%">Ver un ejemplo</div>
+        </div>
+      </div>
+      <ol>
+        <li>Explica en una frase qué hace la app.</li>
+        <li>Dos caminos: empezar de cero o cargar un laboratorio de ejemplo para probar.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>2. Plano del espacio</h2>
+      <div class="tel">
+        <span class="num" style="top:16px; left:2px">1</span>
+        <div class="barra"><div class="caja alto crece">Laboratorio de Química ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <span class="num" style="top:46px; left:2px">2</span>
+        <div class="segmento"><div class="activo">Plano</div><div>Lista</div><div>Préstamos</div></div>
+        <span class="num" style="top:74px; left:2px">3</span>
+        <div class="caja alto izq">🔍 Buscar equipo…</div>
+        <div class="lienzo">
+          <span class="num" style="top:60px; left:6px">4</span>
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <polygon points="100,40 180,80 100,120 20,80" fill="#eee" stroke="#999"/>
+            <polygon points="20,80 20,40 100,0 100,40" fill="#e2e2e2" stroke="#aaa"/>
+            <polygon points="100,40 100,0 180,40 180,80" fill="#d8d8d8" stroke="#aaa"/>
+            <polygon points="60,52 76,44 92,52 92,30 76,22 60,30" fill="#bbb" stroke="#666"/>
+            <polygon points="110,75 140,60 156,68 156,60 126,45 110,53 110,75" fill="#c8c8c8" stroke="#666"/>
+            <circle cx="76" cy="26" r="7" fill="#fff" stroke="#333"/><text x="76" y="29" font-size="8" text-anchor="middle">45</text>
+          </svg>
+          <div class="flotante" style="top:6px"><div class="caja">⟳</div><div class="caja">＋</div><div class="caja">−</div><div class="caja">⌖</div></div>
+          <span class="num" style="top:6px; right:32px">5</span>
+        </div>
+        <span class="num" style="bottom:46px; left:2px">6</span>
+        <div class="paleta"><div class="caja">▭<br>Mesa</div><div class="caja">▯<br>Estante</div><div class="caja">▢<br>Gabinete</div><div class="caja">▭<br>Vitrina</div><div class="caja">…</div></div>
+      </div>
+      <ol>
+        <li>Espacio actual (cambiar), nuevo espacio y menú.</li>
+        <li>Tres vistas del mismo inventario.</li>
+        <li>Búsqueda sin acentos: resalta el mueble.</li>
+        <li>Plano isométrico. Número = piezas guardadas.</li>
+        <li>Girar, acercar, alejar y centrar (alternativa a los gestos).</li>
+        <li>Paleta de muebles, desliza a los lados.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>3. Colocando un mueble</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece">Laboratorio de Química ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <div class="segmento"><div class="activo">Plano</div><div>Lista</div><div>Préstamos</div></div>
+        <div class="caja alto izq">🔍 Buscar equipo…</div>
+        <div class="lienzo">
+          <span class="num" style="top:6px; left:6px">1</span>
+          <div class="caja" style="position:absolute; top:6px; left:26px; right:30px; height:24px; justify-content:space-between">Toca el piso para poner: Estante <b>Listo</b></div>
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <polygon points="100,40 180,80 100,120 20,80" fill="#eee" stroke="#999"/>
+            <polygon points="20,80 20,40 100,0 100,40" fill="#e2e2e2" stroke="#aaa"/>
+            <polygon points="100,40 100,0 180,40 180,80" fill="#d8d8d8" stroke="#aaa"/>
+            <polygon points="116,80 132,72 148,80 132,88" fill="none" stroke="#222" stroke-width="2" stroke-dasharray="3 2"/>
+          </svg>
+          <span class="num" style="top:120px; left:130px">2</span>
+        </div>
+        <div class="paleta"><div class="caja">▭<br>Mesa</div><div class="caja oscura">▯<br>Estante</div><div class="caja">▢<br>Gabinete</div><div class="caja">▭<br>Vitrina</div><div class="caja">…</div></div>
+        <span class="num" style="bottom:20px; left:66px">3</span>
+      </div>
+      <ol>
+        <li>Instrucción visible y botón para terminar.</li>
+        <li>El mueble aparece en la casilla que tocaste. Si no cabe, avisa.</li>
+        <li>El mueble elegido queda marcado: puedes poner varios seguidos.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>4. Ficha del mueble</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece">Laboratorio de Química ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:76%">
+          <div class="asa"></div>
+          <span class="num" style="top:12px; right:8px">1</span>
+          <div class="titulo"></div><div class="linea corta"></div>
+          <span class="num" style="top:52px; right:8px">2</span>
+          <div class="renglon"><div class="texto"><div class="linea media"></div><div class="linea corta"></div></div><div class="caja" style="width:30px">×5</div></div>
+          <div class="renglon"><div class="texto"><div class="linea media"></div><div class="linea corta"></div></div><div class="caja" style="width:30px">×40</div></div>
+          <span class="num" style="top:122px; right:8px">3</span>
+          <div class="barra"><div class="caja alto crece izq">Equipo</div><div class="caja alto" style="width:44px">Cant.</div></div>
+          <div class="caja oscura alto">Agregar al mueble</div>
+          <span class="num" style="top:192px; right:8px">4</span>
+          <div class="barra"><div class="caja alto crece">Girar</div><div class="caja alto crece">Mover</div><div class="caja alto crece">Renombrar</div></div>
+          <div class="caja alto">Borrar mueble</div>
+        </div>
+      </div>
+      <ol>
+        <li>Nombre del mueble, tipo y espacio.</li>
+        <li>Equipo guardado: cantidad y cuántos están prestados. Tocar uno abre su ficha.</li>
+        <li>Agregar equipo (nombre y cantidad, validados).</li>
+        <li>Acciones. Borrar con equipo dentro ofrece «Deshacer».</li>
+      </ol>
+    </div>
+
+  </div>
+  <div class="pie"><span>Ubica · Wireframes</span><span>2</span></div>
+</section>
+
+<!-- ======================= PÁGINA 3 ======================= -->
+<section class="pagina">
+  <div class="encabezado"><h1>Equipo y préstamos</h1><span>Ficha del equipo · Prestar · Préstamos · Deshacer</span></div>
+  <div class="fila">
+
+    <div class="pantalla">
+      <h2>5. Ficha del equipo</h2>
+      <div class="tel">
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:84%">
+          <div class="asa"></div>
+          <div class="barra"><div class="caja cuad">‹</div><div class="titulo crece"></div></div>
+          <span class="num" style="top:46px; right:8px">1</span>
+          <div class="barra"><div class="caja alto crece">Total 5</div><div class="caja alto crece">Prestados 2</div><div class="caja alto crece">Disponibles 3</div></div>
+          <span class="num" style="top:84px; right:8px">2</span>
+          <div class="caja alto izq">Nombre</div>
+          <div class="barra"><div class="caja cuad">−</div><div class="caja alto crece">5</div><div class="caja cuad">＋</div></div>
+          <div class="caja alto izq">N.º de inventario (opcional)</div>
+          <div class="caja alto izq" style="height:34px">Notas (opcional)</div>
+          <div class="caja alto">Guardar cambios</div>
+          <span class="num" style="top:268px; right:8px">3</span>
+          <div class="caja oscura alto">Prestar</div>
+          <div class="barra"><div class="caja alto crece">Cambiar de lugar</div><div class="caja alto crece">Borrar</div></div>
+        </div>
+      </div>
+      <ol>
+        <li>Resumen: total, prestados y disponibles.</li>
+        <li>Editar datos. No deja bajar la cantidad por debajo de lo prestado.</li>
+        <li>Prestar, mover a otro mueble (de cualquier espacio) o borrar.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>6. Prestar equipo</h2>
+      <div class="tel">
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:70%">
+          <div class="asa"></div>
+          <div class="barra"><div class="caja cuad">‹</div><div class="titulo crece"></div></div>
+          <span class="num" style="top:46px; right:8px">1</span>
+          <div class="caja alto izq">¿Quién se lo lleva?</div>
+          <div class="caja alto izq">Grupo o área (opcional)</div>
+          <span class="num" style="top:112px; right:8px">2</span>
+          <div class="barra"><div class="caja cuad">−</div><div class="caja alto crece">1 de 3</div><div class="caja cuad">＋</div></div>
+          <span class="num" style="top:146px; right:8px">3</span>
+          <div class="caja alto izq">Regresa el: 16/11/2026</div>
+          <div class="caja alto izq" style="height:30px">Nota (opcional)</div>
+          <div class="caja oscura alto">Registrar préstamo</div>
+        </div>
+      </div>
+      <ol>
+        <li>Nombre obligatorio (2 a 60 letras).</li>
+        <li>No se puede prestar más de lo disponible.</li>
+        <li>Fecha límite: hoy o después (por defecto, en 7 días).</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>7. Préstamos</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece">Laboratorio de Química ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <div class="segmento"><div>Plano</div><div>Lista</div><div class="activo">Préstamos</div></div>
+        <span class="num" style="top:76px; left:2px">1</span>
+        <div class="chips"><span class="chip" style="background:#555;color:#fff">Activos (3)</span><span class="chip">Historial</span></div>
+        <span class="num" style="top:104px; left:2px">2</span>
+        <div class="renglon" style="border:2px solid #333; border-radius:6px; padding:4px"><div class="texto"><div class="linea media"></div><div class="linea corta"></div><div style="font-size:8px">⚠ Vencido hace 2 días</div></div><div class="caja" style="width:44px; height:26px">Devolver</div></div>
+        <div class="renglon"><div class="texto"><div class="linea media"></div><div class="linea corta"></div><div style="font-size:8px">Regresa el 16 nov</div></div><div class="caja" style="width:44px; height:26px">Devolver</div></div>
+        <div class="renglon"><div class="texto"><div class="linea media"></div><div class="linea corta"></div><div style="font-size:8px">Regresa el 20 nov</div></div><div class="caja" style="width:44px; height:26px">Devolver</div></div>
+        <span class="num" style="top:228px; left:2px">3</span>
+        <div style="font-size:8.5px; color:#555">Equipo ×cantidad · persona · espacio › mueble</div>
+      </div>
+      <ol>
+        <li>Activos o historial (devueltos).</li>
+        <li>Los vencidos van primero y se marcan con texto, no solo color.</li>
+        <li>Cada préstamo dice qué, quién y de dónde salió.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>8. Borrar con «Deshacer»</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece">Laboratorio de Química ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <div class="segmento"><div class="activo">Plano</div><div>Lista</div><div>Préstamos</div></div>
+        <div class="caja alto izq">🔍 Buscar equipo…</div>
+        <div class="lienzo"></div>
+        <div class="paleta"><div class="caja">▭<br>Mesa</div><div class="caja">▯<br>Estante</div><div class="caja">▢<br>Gabinete</div><div class="caja">▭<br>Vitrina</div><div class="caja">…</div></div>
+        <div class="aviso"><span>Borraste «Estante A» y 45 piezas</span><b>DESHACER</b></div>
+        <span class="num" style="bottom:86px; left:10px">1</span>
+      </div>
+      <ol>
+        <li>En lugar de preguntar «¿seguro?» cada vez, borra y da 8 segundos para deshacer. Si el mueble tiene préstamos activos, no deja borrarlo.</li>
+      </ol>
+    </div>
+
+  </div>
+  <div class="pie"><span>Ubica · Wireframes</span><span>3</span></div>
+</section>
+
+<!-- ======================= PÁGINA 4 ======================= -->
+<section class="pagina">
+  <div class="encabezado"><h1>Lista, espacios y datos</h1><span>Lista accesible · Espacio · Menú y respaldo · Base de datos</span></div>
+  <div class="fila">
+
+    <div class="pantalla">
+      <h2>9. Lista accesible</h2>
+      <div class="tel">
+        <div class="barra"><div class="caja alto crece">Todos los espacios ▾</div><div class="caja cuad">＋</div><div class="caja cuad">⋯</div></div>
+        <div class="segmento"><div>Plano</div><div class="activo">Lista</div><div>Préstamos</div></div>
+        <div class="caja alto izq">🔍 Buscar equipo…</div>
+        <span class="num" style="top:104px; left:2px">1</span>
+        <div class="seccion">LABORATORIO DE QUÍMICA · 8 muebles</div>
+        <span class="num" style="top:122px; left:2px">2</span>
+        <div class="renglon"><div class="texto"><div class="titulo" style="width:50%"></div><div class="linea media"></div><div class="linea corta"></div></div><div class="caja" style="width:34px; height:24px">Abrir</div></div>
+        <div class="renglon"><div class="texto"><div class="titulo" style="width:40%"></div><div class="linea media"></div></div><div class="caja" style="width:34px; height:24px">Abrir</div></div>
+        <div class="seccion">BODEGA · 3 muebles</div>
+        <div class="renglon"><div class="texto"><div class="titulo" style="width:45%"></div><div class="linea media"></div></div><div class="caja" style="width:34px; height:24px">Abrir</div></div>
+        <span class="num" style="top:300px; left:2px">3</span>
+        <div class="caja alto">Ver en el plano</div>
+      </div>
+      <ol>
+        <li>Agrupado por espacio, con encabezados reales (h2/h3).</li>
+        <li>Cada mueble con su equipo en texto; «Abrir» lleva a la misma ficha.</li>
+        <li>Puede ubicar el mueble en el plano.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>10. Nuevo / editar espacio</h2>
+      <div class="tel">
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:72%">
+          <div class="asa"></div>
+          <div class="titulo"></div>
+          <span class="num" style="top:34px; right:8px">1</span>
+          <div class="caja alto izq">Nombre</div>
+          <span class="num" style="top:70px; right:8px">2</span>
+          <div class="caja alto izq">Tipo: Laboratorio ▾</div>
+          <span class="num" style="top:104px; right:8px">3</span>
+          <div class="barra"><div class="caja alto crece">Ancho 8</div><div class="caja alto crece">Fondo 6</div></div>
+          <div class="linea media"></div>
+          <div class="caja oscura alto">Guardar</div>
+          <span class="num" style="top:200px; right:8px">4</span>
+          <div class="caja alto">Borrar espacio</div>
+        </div>
+      </div>
+      <ol>
+        <li>Nombre (1 a 40 letras, sin repetir).</li>
+        <li>Tipo: cambia la etiqueta y el color del piso.</li>
+        <li>Medidas de 3 a 20 casillas. Al reducir, revisa que los muebles quepan.</li>
+        <li>Borrar pide confirmar y dice cuánto equipo se pierde.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>11. Menú ⋯ y respaldo</h2>
+      <div class="tel">
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:76%">
+          <div class="asa"></div>
+          <div class="titulo"></div>
+          <span class="num" style="top:34px; right:8px">1</span>
+          <div class="barra"><div class="caja alto crece">3 espacios</div><div class="caja alto crece">214 piezas</div><div class="caja alto crece">3 prestados</div></div>
+          <span class="num" style="top:72px; right:8px">2</span>
+          <div class="caja alto izq">Editar este espacio</div>
+          <div class="caja oscura alto izq">Guardar respaldo (.json)</div>
+          <div class="caja alto izq">Restaurar respaldo</div>
+          <span class="num" style="top:168px; right:8px">3</span>
+          <div class="caja alto izq">Exportar para Excel (.csv)</div>
+          <span class="num" style="top:202px; right:8px">4</span>
+          <div class="caja alto izq">Ver la base de datos</div>
+          <div class="caja alto izq">Novedades · versión</div>
+        </div>
+      </div>
+      <ol>
+        <li>Resumen del inventario.</li>
+        <li>Respaldo con el menú Compartir de Android (ahí no sirve «descargar»). Restaurar revisa el archivo antes de reemplazar.</li>
+        <li>Lista para Excel con la ubicación de cada pieza.</li>
+        <li>Muestra las tablas de IndexedDB.</li>
+      </ol>
+    </div>
+
+    <div class="pantalla">
+      <h2>12. Base de datos</h2>
+      <div class="tel">
+        <div class="lienzo"></div>
+        <div class="velo"></div>
+        <div class="hoja" style="height:88%">
+          <div class="asa"></div>
+          <div class="barra"><div class="caja cuad">‹</div><div class="titulo crece"></div></div>
+          <span class="num" style="top:44px; right:8px">1</span>
+          <div class="chips"><span class="chip" style="background:#555;color:#fff">espacios 3</span><span class="chip">muebles 11</span><span class="chip">equipo 24</span><span class="chip">prestamos 5</span></div>
+          <span class="num" style="top:72px; right:8px">2</span>
+          <div style="font-size:8.5px; color:#555">Clave: id · Índices: espacioId</div>
+          <span class="num" style="top:96px; right:8px">3</span>
+          <table class="mini"><tr><th>id</th><th>nombre</th><th>tipo</th><th>ancho</th><th>fondo</th></tr>
+            <tr><td>e1</td><td>Lab. Química</td><td>laboratorio</td><td>8</td><td>6</td></tr>
+            <tr><td>e2</td><td>Bodega</td><td>bodega</td><td>5</td><td>4</td></tr>
+            <tr><td>e3</td><td>Salón 2B</td><td>salon</td><td>10</td><td>8</td></tr></table>
+          <div class="linea media"></div>
+        </div>
+      </div>
+      <ol>
+        <li>Una pestaña por tabla, con cuántos registros tiene.</li>
+        <li>Llave e índices de cada tabla.</li>
+        <li>Los registros leídos directo de IndexedDB, para mostrarle al profesor que la base existe y funciona.</li>
+      </ol>
+    </div>
+
+  </div>
+  <div class="pie"><span>Ubica · Wireframes</span><span>4</span></div>
+</section>
+
+
+<script>
+  // Cada número señala al elemento que tiene junto (el siguiente o, si no hay, el anterior).
+  // Aquí se mueve a la orilla izquierda del teléfono, a la altura de ese elemento,
+  // para que nunca tape un botón.
+  document.querySelectorAll('.num').forEach(function (numero) {
+    var objetivo = numero.nextElementSibling || numero.previousElementSibling;
+    var pantalla = numero.closest('.pantalla');
+    if (!objetivo || !pantalla) return;
+    var caja = objetivo.getBoundingClientRect();
+    var marco = pantalla.getBoundingClientRect();
+    pantalla.appendChild(numero);
+    numero.style.cssText = 'left:0; top:' + (caja.top - marco.top + caja.height / 2 - 7.5) + 'px';
+  });
+</script>
+</body>
+</html>

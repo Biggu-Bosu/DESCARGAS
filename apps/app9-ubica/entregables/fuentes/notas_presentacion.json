@@ -1,0 +1,104 @@
+[
+  {
+    "titulo": "Portada",
+    "partes": [
+      {
+        "quien": 1,
+        "hace": "De pie, mirando al grupo",
+        "dice": "Buenos días. Somos el equipo ___ y les presentamos Ubica: el inventario que también dice dónde está cada cosa."
+      }
+    ],
+    "senalar": "El almacén en 3D de la portada: es la app real, no un dibujo.",
+    "enlace": "Pasa a la siguiente con la pregunta «¿les ha pasado que…?»."
+  },
+  {
+    "titulo": "El problema",
+    "partes": [
+      {
+        "quien": 1,
+        "dice": "En una escuela, el inventario suele ser una lista en Excel. Dice qué hay y cuánto, pero no dónde. Por eso, cuando alguien necesita el proyector, termina abriendo gabinete por gabinete. Y los préstamos se anotan en una libreta que nadie revisa."
+      },
+      {
+        "quien": 1,
+        "hace": "Señala la pregunta en amarillo",
+        "dice": "Nosotros quisimos resolver esa pregunta: ¿dónde está?"
+      }
+    ],
+    "senalar": "La pregunta «¿Dónde está?» y las tres tarjetas, de arriba abajo.",
+    "enlace": "Cede la palabra: «Mi compañero les cuenta nuestra propuesta»."
+  },
+  {
+    "titulo": "Un inventario, tres formas de ver cada lugar",
+    "partes": [
+      {
+        "quien": 2,
+        "dice": "Nuestra propuesta es una aplicación web que funciona sin internet, en celular y en computadora. Es un inventario completo y, además, cada lugar se puede ver de tres formas: como lista, en un plano 2.5D o en un modelo 3D. Tú eliges cuánto detalle quieres, lugar por lugar. Y todo se guarda en el propio dispositivo, sin cuentas ni servidores."
+      }
+    ],
+    "senalar": "Los tres celulares, de izquierda a derecha, al decir «lista, 2.5D, 3D».",
+    "enlace": "«Empecemos por lo básico: el inventario.»"
+  },
+  {
+    "titulo": "El inventario",
+    "partes": [
+      {
+        "quien": 1,
+        "dice": "Empecemos por el inventario. Cada artículo tiene categoría, número de inventario y piezas por estado: buenas, en reparación o dañadas. Podemos buscar, filtrar y ordenar. Los préstamos registran quién se lo llevó y cuándo regresa; los vencidos aparecen primero. Y cada cambio queda guardado en un historial."
+      }
+    ],
+    "senalar": "La tabla (columnas Disponibles y Estado) y el panel de la derecha con las piezas por estado.",
+    "enlace": "«Hasta aquí es un buen inventario. Lo distinto viene ahora.»"
+  },
+  {
+    "titulo": "El espacio: plano 2.5D y modelo 3D",
+    "partes": [
+      {
+        "quien": 2,
+        "dice": "Ahora, el espacio. En 2.5D dibujamos el lugar como un plano tipo videojuego y arrastramos los muebles a su sitio. En 3D, el mismo lugar se puede recorrer: giramos la cámara, nos acercamos y tocamos un mueble para ver qué guarda. Los modelos se generan por código, con sus medidas reales."
+      }
+    ],
+    "senalar": "Primero la imagen izquierda (2.5D), luego la derecha (3D) y el panel con el contenido del gabinete.",
+    "enlace": "«Y lo mejor es cómo se conectan.»"
+  },
+  {
+    "titulo": "Los mismos datos en todas las vistas",
+    "partes": [
+      {
+        "quien": 1,
+        "hace": "Demostración en vivo en la app; si no hay proyector con la app, usa las dos imágenes",
+        "dice": "Lo más importante: las tres vistas usan los mismos datos. Busco «micrófono», toco «Localizar» y la app me lleva al almacén en 3D, con su vitrina resaltada. Si muevo un mueble aquí y cambio a 2.5D, ya está en su nuevo lugar. Nada se captura dos veces."
+      }
+    ],
+    "senalar": "La flecha amarilla entre las dos imágenes.",
+    "enlace": "«¿Y cómo logramos que nunca se contradigan?»",
+    "demo": "Inventario → buscar «micrófono» → abrir → «Localizar». Luego arrastrar el Banco y pulsar «2.5D»."
+  },
+  {
+    "titulo": "Cómo está hecho",
+    "partes": [
+      {
+        "quien": 2,
+        "hace": "Recorre el diagrama de arriba abajo",
+        "dice": "¿Cómo lo hicimos? Con HTML, CSS y JavaScript, una base de datos IndexedDB dentro del dispositivo y Three.js para el 3D. La clave fue separar las reglas del inventario de las pantallas: cualquier vista pide un cambio, las reglas lo validan y todas se actualizan. Lo comprobamos con más de trescientas pruebas automáticas."
+      }
+    ],
+    "senalar": "Las tres cajas de arriba (vistas), la caja azul del centro y las dos cifras verdes.",
+    "enlace": "«Para cerrar…»"
+  },
+  {
+    "titulo": "Conclusión",
+    "partes": [
+      {
+        "quien": 2,
+        "dice": "En resumen: Ubica es una aplicación real, publicada en la web y preparada como app de Android. Funciona sin internet y protege los datos con respaldos y copias automáticas. Nos falta probarla en más dispositivos y seguir cada pieza por separado."
+      },
+      {
+        "quien": 1,
+        "hace": "Da un paso al frente; este es el cierre del pitch",
+        "dice": "Usamos la inteligencia artificial como asistente, pero las decisiones fueron nuestras: qué construir, qué no borrar nunca y qué probar. Con Ubica, la escuela deja de preguntar «¿dónde está?» y empieza a encontrarlo. Ubica: tu inventario, en su lugar. Gracias; con gusto respondemos sus preguntas."
+      }
+    ],
+    "senalar": "El lema y la dirección web.",
+    "enlace": "Fin. Los dos expositores quedan al frente para las preguntas."
+  }
+]
