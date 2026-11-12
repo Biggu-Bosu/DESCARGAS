@@ -542,7 +542,8 @@ const OBJETIVOS = {
   19: 'Misión final: construir y terminar Ubica completa (inventario, 2.5D, 3D, interfaz nueva, pruebas y los cuatro entregables).',
   20: 'Diferenciar el 3D (objetos dentro de los muebles, animaciones), inventario por ubicación, simplificaciones y base de datos en crudo.',
   21: 'Organizar con menos pasos: alta limitada al lugar, mueble nuevo en el alta, acomodo automático, mover varios y encaje de objetos 3D.',
-  22: 'Que los objetos 3D se vean siempre y que el mueble no se transparente al seleccionarlo.'
+  22: 'Que los objetos 3D se vean siempre y que el mueble no se transparente al seleccionarlo.',
+  23: 'Botones para borrar lugares, revisión final y mover los entregables al repositorio público de descargas.'
 };
 
 function leerPrompts() {
